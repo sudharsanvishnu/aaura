@@ -34,6 +34,11 @@ export const CommonStyle = {
         height: hp(100),
         backgroundColor: Colors.violet,
     },
+    container2: {
+        width: wp(100),
+        height: hp(100),
+        backgroundColor: Colors.white,
+    },
     shadow: {
         shadowColor: "#000",
         shadowOffset: {
