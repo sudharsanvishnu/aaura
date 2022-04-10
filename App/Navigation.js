@@ -6,6 +6,7 @@ import Login from './screens/splash/Login';
 import Splash from './screens/splash/Splash';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from './screens/drawer/Home';
+import DrawerContent from './screens/drawer/DrawerContent';
 
 
 
@@ -14,7 +15,11 @@ const Drawer = createDrawerNavigator();
 
 const DrawerScreen = () => {
     return (
-        <Drawer.Navigator   >
+        <Drawer.Navigator
+            drawerContent={props => <DrawerContent {...props} />}
+            screenOptions={{ headerShown: false }}
+            initialRouteName='Home'
+        >
             <Drawer.Screen name="Home" component={Home} />
         </Drawer.Navigator>
     );

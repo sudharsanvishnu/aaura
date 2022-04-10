@@ -53,6 +53,5 @@ const styles = StyleSheet.create({
         tintColor: Colors.white,
         // backgroundColor: 'red',
     },
-    bell: {
-    }
+
 })

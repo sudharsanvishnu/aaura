@@ -69,7 +69,7 @@ const Login = ({ navigation }) => {
     return (
         <SafeAreaView>
             <View style={[CommonStyle.container, styles.container]} >
-                <Image source={require('../../assets/image/icon.jpg')} style={styles.logo} resizeMode="contain" />
+                <Image source={require('../../assets/image/new.png')} style={styles.logo} resizeMode="contain" />
                 {verifyOtp ? VerifyOtpScreen() : EnterPhone()}
             </View>
         </SafeAreaView >
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         borderTopLeftRadius: wp(20),
-        borderTopRightRadius: wp(20),
+        // borderTopRightRadius: wp(20),
     },
     text: {
         color: Colors.violet,
