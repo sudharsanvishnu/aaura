@@ -1,0 +1,1 @@
+export const baseURL = 'https://ecom.theaaura.com/'

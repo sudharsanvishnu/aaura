@@ -3,13 +3,51 @@ import React, { useEffect, useState } from 'react'
 import { Colors, CommonStyle, fonts, hp, wp } from '../../utils/Constant'
 import Button from '../../components/Button';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
+import { baseURL } from '../../apiConstant.js';
+import { isValidPhoneNo } from '../../utils/Helper';
 
 const Login = ({ navigation }) => {
 
+    const otpGenerate = (Math.floor(100000 + Math.random() * 900000));
 
     const [mobile, setMobile] = useState('');
     const [otp, setOtp] = useState('');
     const [verifyOtp, setVerifyOtp] = useState(false);
+    const [alert, setAlert] = useState(false);
+
+    const API_CALL = () => {
+        if (isValidPhoneNo(mobile)) {
+            setAlert(false);
+
+            const requestOptions = { method: 'POST' };
+            fetch(baseURL + `api/v1/auth/mobile-login?phone=${mobile}`, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    if (result) {
+                        POPULATE_OTP();
+                        setVerifyOtp(true)
+                        console.log(result, 'this is result')
+                        // Toast.showWithGravity('OTP request sent successfully!', Toast.LONG, Toast.BOTTOM);
+                    } else {
+                        // Toast.showWithGravity('please enter valid phone number', Toast.LONG, Toast.BOTTOM);
+                        console.log('error invalid number')
+                    }
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
+        } else {
+            setAlert(true);
+        }
+    }
+
+    const POPULATE_OTP = () => {
+        fetch(`http://sms.kitkatsoftwaretechnologies.com/api/smsapi?key=e41a88a3f0792d262521edfdab0fcda1&route=1&sender=AAURAA&number=${mobile}&sms=${otpGenerate} is your AAURA code and is valid for 10 minutes. Do not share the OTP with anyone. www.theaaura.com Thanks for registering&templateid=1207161961868440043`, {
+            method: "POST"
+        })
+        return POPULATE_OTP;
+    }
+
 
     const EnterPhone = () => {
         return (
@@ -22,7 +60,9 @@ const Login = ({ navigation }) => {
                     style={styles.textInput}
                     maxLength={10}
                 />
-                <Button title='SEND OTP' style={styles.button} press={mobile.length === 10 ? false : true} buttontext={styles.buttontext} onPress={() => setVerifyOtp(true)} />
+                <Button title='SEND OTP' style={styles.button} press={mobile.length === 10 ? false : true} buttontext={styles.buttontext} onPress={() => {
+                    API_CALL();
+                }} />
             </View>
         )
     }

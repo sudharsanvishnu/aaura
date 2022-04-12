@@ -25,7 +25,7 @@ const Profile = ({ navigation }) => {
                     <Text style={styles.address} >Orders</Text>
                 </View>
             </View>
-            <View style={[styles.box, CommonStyle.shadow]} >
+            <View style={[styles.box, CommonStyle.shadow, { width: wp(95) }]} >
                 <Text style={styles.address} >Wishlist</Text>
             </View>
         </View>
