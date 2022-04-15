@@ -4,14 +4,15 @@ import { Colors, CommonStyle, fonts, hp, wp } from '../utils/Constant'
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 const Card = ({ item }) => {
+
     return (
         <View style={styles.cardView} >
             <View style={CommonStyle.shadow} >
                 <View style={{ backgroundColor: Colors.white, borderRadius: wp(2) }} >
-                    <Image source={item.imgUrl} style={styles.image} />
-                    <Text style={styles.title} >{item.title}</Text>
+                    <Image source={{ uri: item.thumbnail_image }} resizeMode='cover' style={styles.image} />
+                    <Text numberOfLines={1} style={styles.title} >{item.name}</Text>
                     <View style={styles.contentView} >
-                        <Text style={styles.price} >{item.price}</Text>
+                        <Text style={styles.price} >{item.base_price}</Text>
                         <Text style={styles.actualPrice} >{item.actualPrice}</Text>
                     </View>
                     <View style={styles.contentView} >
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: wp(2),
     },
     title: {
-        fontSize: wp(4),
+        fontSize: 14,
         fontFamily: fonts.PL,
         color: Colors.black
     },

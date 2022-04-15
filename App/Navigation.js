@@ -17,6 +17,9 @@ import Wishlist from './screens/drawer/Wishlist';
 import Orders from './screens/drawer/Orders';
 import Profile from './screens/drawer/Profile';
 import Cart from './screens/drawer/Cart';
+import Cards from './screens/stack/Cards';
+import ProductDetail from './screens/stack/ProductDetail';
+import Deals from './screens/stack/Deals';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -39,7 +42,6 @@ const DrawerScreen = () => {
             <Drawer.Screen name='Notification' component={Notification} />
             <Drawer.Screen name='Help' component={Help} />
             <Drawer.Screen name='Chats' component={Chats} />
-
         </Drawer.Navigator>
     );
 }
@@ -55,6 +57,9 @@ const Navigation = () => {
                 <Stack.Screen name="Splash" component={Splash} />
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="DrawerScreen" component={DrawerScreen} />
+                <Stack.Screen name="Cards" component={Cards} />
+                <Stack.Screen name="Product detail" component={ProductDetail} />
+                <Stack.Screen name="Deals" component={Deals} />
             </Stack.Navigator>
         </NavigationContainer >
     )
