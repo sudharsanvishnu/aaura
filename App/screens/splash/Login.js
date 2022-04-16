@@ -261,6 +261,7 @@ const styles = StyleSheet.create({
     textInput: {
         borderWidth: wp(0.3),
         borderColor: Colors.violet,
+        color: Colors.black,
         paddingHorizontal: wp(3),
         borderRadius: wp(2),
         width: wp(80),

@@ -1,10 +1,10 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:1:1-25:12
-INJECTED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:1:1-25:12
-INJECTED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:1:1-25:12
-INJECTED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:1:1-25:12
-MERGED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:1:1-25:12
+ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:1:1-26:12
+INJECTED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:1:1-26:12
+INJECTED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:1:1-26:12
+INJECTED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:1:1-26:12
+MERGED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:1:1-26:12
 MERGED from [hermes-debug.aar] /Users/sudharsanpalanisamy/.gradle/caches/transforms-2/files-2.1/1edce69ab31add5d59154aaf433e2cc5/jetified-hermes-debug/AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.flipper:flipper:0.75.1] /Users/sudharsanpalanisamy/.gradle/caches/transforms-2/files-2.1/a8f6015f96666ab8d93bfe5b64998bc8/jetified-flipper-0.75.1/AndroidManifest.xml:8:1-18:12
 MERGED from [com.facebook.flipper:flipper-network-plugin:0.75.1] /Users/sudharsanpalanisamy/.gradle/caches/transforms-2/files-2.1/d8279ebfbcca51b68586de1b9bc17210/jetified-flipper-network-plugin-0.75.1/AndroidManifest.xml:8:1-15:12
@@ -89,13 +89,13 @@ INJECTED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/debug/AndroidM
 		INJECTED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/debug/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:1:1-25:12
+		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:1:1-26:12
 		INJECTED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/debug/AndroidManifest.xml
 	xmlns:tools
 		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/debug/AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:1:1-25:12
+		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:1:1-26:12
 		INJECTED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/debug/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:1:11-69
@@ -110,9 +110,9 @@ MERGED from [com.google.android.gms:play-services-maps:17.0.0] /Users/sudharsanp
 	android:name
 		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:4:22-64
 application
-ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:6:5-24:19
-MERGED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:6:5-24:19
-MERGED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:6:5-24:19
+ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:6:5-25:19
+MERGED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:6:5-25:19
+MERGED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:6:5-25:19
 MERGED from [:react-native-razorpay] /Users/sudharsanpalanisamy/rn/aaura/node_modules/react-native-razorpay/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-15:19
 MERGED from [:react-native-razorpay] /Users/sudharsanpalanisamy/rn/aaura/node_modules/react-native-razorpay/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-15:19
 MERGED from [com.facebook.react:react-native:0.64.1] /Users/sudharsanpalanisamy/.gradle/caches/transforms-2/files-2.1/8d2282471b47ce9a43adfd1155d78528/jetified-react-native-0.64.1/AndroidManifest.xml:11:5-20
@@ -166,27 +166,29 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/sudh
 		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:7:7-38
 		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:7:7-38
 activity#com.shopping.MainActivity
-ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:13:7-23:18
+ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:13:7-24:18
+	android:screenOrientation
+		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:16:9-45
 	android:label
 		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:15:9-41
 	android:launchMode
-		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:17:9-39
+		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:18:9-39
 	android:windowSoftInputMode
-		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:18:9-48
+		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:19:9-48
 	android:configChanges
-		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:16:9-86
+		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:17:9-86
 	android:name
 		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:14:9-37
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:19:9-22:25
+ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:20:9-23:25
 action#android.intent.action.MAIN
-ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:20:13-65
+ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:21:13-65
 	android:name
-		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:20:21-62
+		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:21:21-62
 category#android.intent.category.LAUNCHER
-ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:21:13-73
+ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:22:13-73
 	android:name
-		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:21:23-70
+		ADDED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml:22:23-70
 uses-sdk
 INJECTED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/AndroidManifest.xml

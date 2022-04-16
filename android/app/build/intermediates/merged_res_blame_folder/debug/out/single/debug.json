@@ -1,7 +1,51 @@
 [
     {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnativeratings_dist_images_rocket.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/node_modules_reactnativeratings_dist_images_rocket.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnativeratings_dist_images_heart.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/node_modules_reactnativeratings_dist_images_heart.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_entities_lib_maps_xml.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_entities_lib_maps_xml.json"
+    },
+    {
         "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi_node_modules_reactnavigation_stack_src_views_assets_backicon.png.flat",
         "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-xxxhdpi/node_modules_reactnavigation_stack_src_views_assets_backicon.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_fontawesome5free_meta.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_fontawesome5free_meta.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_assets_newlogo.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/assets_newlogo.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_characterentitieslegacy_index.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_characterentitieslegacy_index.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_assets_icon.jpg.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/assets_icon.jpg"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi_node_modules_reactnavigation_drawer_src_views_assets_toggledrawericon.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-xxhdpi/node_modules_reactnavigation_drawer_src_views_assets_toggledrawericon.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi_node_modules_reactnavigation_drawer_src_views_assets_toggledrawericon.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-xxxhdpi/node_modules_reactnavigation_drawer_src_views_assets_toggledrawericon.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_app_assets_image_new.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/app_assets_image_new.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_fontisto.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_fontisto.json"
     },
     {
         "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_icon.jpg.flat",
@@ -16,8 +60,68 @@
         "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-hdpi/node_modules_reactnavigation_stack_src_views_assets_backicon.png"
     },
     {
-        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_icon.jpg.flat",
-        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/mipmap-xxxhdpi/icon.jpg"
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_zocial.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_zocial.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-xhdpi_node_modules_reactnavigation_drawer_src_views_assets_toggledrawericon.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-xhdpi/node_modules_reactnavigation_drawer_src_views_assets_toggledrawericon.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_app_assets_image_newlogo.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/app_assets_image_newlogo.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-xhdpi_node_modules_reactnavigation_stack_src_views_assets_backicon.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-xhdpi/node_modules_reactnavigation_stack_src_views_assets_backicon.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_app_assets_image_user.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/app_assets_image_user.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_entities_lib_maps_decode.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_entities_lib_maps_decode.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnativeratings_dist_images_airbnbstar.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/node_modules_reactnativeratings_dist_images_airbnbstar.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_materialicons.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_materialicons.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_ionicons.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_ionicons.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnativeratings_dist_images_airbnbstarselected.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/node_modules_reactnativeratings_dist_images_airbnbstarselected.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-hdpi_node_modules_reactnavigation_drawer_src_views_assets_toggledrawericon.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-hdpi/node_modules_reactnavigation_drawer_src_views_assets_toggledrawericon.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_feather.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_feather.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_simplelineicons.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_simplelineicons.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_fontawesome5free.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_fontawesome5free.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnativeratings_dist_images_star.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/node_modules_reactnativeratings_dist_images_star.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_entities_lib_maps_entities.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_entities_lib_maps_entities.json"
     },
     {
         "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi_icon.jpg.flat",
@@ -28,39 +132,83 @@
         "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/mipmap-hdpi/icon.jpg"
     },
     {
-        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-xhdpi_node_modules_reactnavigation_stack_src_views_assets_backicon.png.flat",
-        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-xhdpi/node_modules_reactnavigation_stack_src_views_assets_backicon.png"
-    },
-    {
-        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_assets_newlogo.png.flat",
-        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/assets_newlogo.png"
-    },
-    {
-        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_materialcommunityicons.json.flat",
-        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_materialcommunityicons.json"
-    },
-    {
         "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi_node_modules_reactnavigation_stack_src_views_assets_backicon.png.flat",
         "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-xxhdpi/node_modules_reactnavigation_stack_src_views_assets_backicon.png"
     },
     {
-        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/mipmap-mdpi_icon.jpg.flat",
-        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/mipmap-mdpi/icon.jpg"
-    },
-    {
-        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_assets_icon.jpg.flat",
-        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/assets_icon.jpg"
-    },
-    {
-        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnavigation_stack_src_views_assets_backicon.png.flat",
-        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/node_modules_reactnavigation_stack_src_views_assets_backicon.png"
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnativeratings_dist_images_bell.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/node_modules_reactnativeratings_dist_images_bell.png"
     },
     {
         "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_app.json.flat",
         "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/app.json"
     },
     {
-        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_ionicons.json.flat",
-        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_ionicons.json"
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_fontawesome.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_fontawesome.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_foundation.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_foundation.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_characterentitieshtml4_index.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_characterentitieshtml4_index.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_octicons.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_octicons.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_csscolorkeywords_colors.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_csscolorkeywords_colors.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnative_package.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnative_package.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_icon.jpg.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/mipmap-xxxhdpi/icon.jpg"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnavigation_drawer_src_views_assets_toggledrawericon.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/node_modules_reactnavigation_drawer_src_views_assets_toggledrawericon.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_app_assets_image_icon.jpg.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/app_assets_image_icon.jpg"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_stringifyentities_lib_constant_dangerous.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_stringifyentities_lib_constant_dangerous.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_antdesign.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_antdesign.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_materialcommunityicons.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_materialcommunityicons.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/mipmap-mdpi_icon.jpg.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/mipmap-mdpi/icon.jpg"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnavigation_stack_src_views_assets_backicon.png.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/drawable-mdpi/node_modules_reactnavigation_stack_src_views_assets_backicon.png"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_evilicons.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_evilicons.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_entities_lib_maps_legacy.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_entities_lib_maps_legacy.json"
+    },
+    {
+        "merged": "/Users/sudharsanpalanisamy/rn/aaura/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_entypo.json.flat",
+        "source": "/Users/sudharsanpalanisamy/rn/aaura/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_entypo.json"
     }
 ]

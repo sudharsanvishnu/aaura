@@ -19,8 +19,10 @@ const DrawerContent = ({ props, navigation }) => {
 
     const [sideMenu, setSideMenu] = useState([
         { title: 'Home', icon: 'home', iconFamily: AntDesign, nav: 'Home', size: wp(5) },
-        { title: 'Shop by category', icon: 'shop', iconFamily: Entypo, nav: 'Shop', size: wp(5) },
+        // { title: 'Shop by category', icon: 'shop', iconFamily: Entypo, nav: 'Shop', size: wp(5) },
         { title: "Today's Deals", icon: 'local-offer', iconFamily: MaterialIcons, nav: 'TodayDeals', size: wp(5) },
+        { title: 'Top Brands', icon: 'local-offer', iconFamily: MaterialIcons, nav: 'TopBrands', size: wp(5) },
+        { title: 'Shop Details', icon: 'shop', iconFamily: Entypo, nav: 'Shop details', size: wp(5) },
         { title: 'Cart', icon: 'cart', iconFamily: EvilIcons, nav: 'Cart', size: wp(5) },
         { title: 'Your Profile', icon: 'profile', iconFamily: AntDesign, nav: 'Profile', size: wp(5) },
         { title: 'Your Orders', icon: 'shopping-package', iconFamily: Fontisto, nav: 'Orders', size: wp(5) },

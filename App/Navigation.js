@@ -23,6 +23,8 @@ import Deals from './screens/stack/Deals';
 import Privacy from './screens/drawer/Privacy';
 import { LogBox } from 'react-native';
 import Reset from './screens/splash/Reset';
+import TopBrands from './screens/drawer/TopBrands';
+import Shop from './screens/drawer/Shop';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -52,6 +54,8 @@ const DrawerScreen = () => {
             <Drawer.Screen name='Help' component={Help} />
             <Drawer.Screen name='Chats' component={Chats} />
             <Drawer.Screen name='Privacy' component={Privacy} />
+            <Drawer.Screen name='TopBrands' component={TopBrands} />
+            <Drawer.Screen name='Shop details' component={Shop} />
         </Drawer.Navigator>
     );
 }
