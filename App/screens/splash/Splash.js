@@ -1,15 +1,37 @@
 import { StyleSheet, Image, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { Colors, CommonStyle, hp, wp } from '../../utils/Constant'
+import { Storage } from '../../local storage';
+import AsynchStoragekey from '../../local storage/AsyncStorage';
 
 const Splash = ({ navigation }) => {
 
 
     useEffect(() => {
+
         setTimeout(() => {
+            isUserLogin();
+        }, 3000)
+    }, [])
+
+    useEffect(() => {
+        CHECK_USER();
+    }, []);
+
+    const CHECK_USER = async () => {
+        const account_info = await Storage.getItem(AsynchStoragekey.bearer);
+        global.token = account_info.access_token;
+    }
+
+
+    const isUserLogin = async () => {
+        if (global.token === '') {
             navigation.replace('Login')
-        }, 2000)
-    })
+        } else {
+            // console.log('drawer')
+            navigation.replace('DrawerScreen')
+        }
+    }
 
     return (
         <View style={styles.container} >

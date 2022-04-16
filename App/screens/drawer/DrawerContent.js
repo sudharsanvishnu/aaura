@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, Image, ImageBackground } from 'react-native'
+import { StyleSheet, Text, View, Pressable, Image, ImageBackground, Modal } from 'react-native'
 import React, { useState } from 'react'
 import { Colors, fonts, hp, wp } from '../../utils/Constant'
 import { DrawerContentScrollView } from '@react-navigation/drawer'
@@ -9,8 +9,13 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { Storage } from '../../local storage';
+import AsynchStoragekey from '../../local storage/AsyncStorage';
+import Button from '../../components/Button';
 
-const DrawerContent = (props) => {
+const DrawerContent = ({ props, navigation }) => {
+
+    const [isVisible, setIsVisible] = useState(false);
 
     const [sideMenu, setSideMenu] = useState([
         { title: 'Home', icon: 'home', iconFamily: AntDesign, nav: 'Home', size: wp(5) },
@@ -24,7 +29,7 @@ const DrawerContent = (props) => {
         { title: 'Notification', icon: 'bell', iconFamily: EvilIcons, nav: 'Notification', size: wp(5) },
         { title: 'Help center', icon: 'help-outline', iconFamily: MaterialIcons, nav: 'Help', size: wp(5) },
         { title: 'Chats', icon: 'chat-bubble-outline', iconFamily: MaterialIcons, nav: 'Chats', size: wp(5) },
-        { title: 'Privacy Policy', icon: 'privacy-tip', iconFamily: MaterialIcons, nav: 'Home', size: wp(5) },
+        { title: 'Privacy Policy', icon: 'privacy-tip', iconFamily: MaterialIcons, nav: 'Privacy', size: wp(5) },
         { title: 'Legal', icon: 'legal', iconFamily: FontAwesome, nav: 'Home', size: wp(5) },
         { title: 'Logout', icon: 'logout', iconFamily: MaterialIcons, nav: 'Home', size: wp(5) },
     ])
@@ -54,7 +59,7 @@ const DrawerContent = (props) => {
                                 } else if (item.title === 'Reviews') {
                                     setRatingVisible(true);
                                 } else {
-                                    props.navigation.navigate(item.nav);
+                                    navigation.navigate(item.nav);
                                 }
                             }
                             } >
@@ -79,6 +84,25 @@ const DrawerContent = (props) => {
                     })
                 }
             </DrawerContentScrollView>
+            {/* for logout */}
+            <Modal animationType="fade" transparent={true} visible={isVisible}>
+                <View style={styles.modalContainer} >
+                    <View style={styles.modal} >
+                        <View style={styles.contentText}  >
+                            <Text style={styles.added} >Are you sure want to logout? </Text>
+                        </View>
+                        <View style={{ flexDirection: 'row' }} >
+                            <Button title="NO" style={styles.button1} buttontext={styles.buttontext} onPress={() => setIsVisible(false)} />
+                            <Button title="YES" style={styles.button} onPress={() => {
+                                setIsVisible(false)
+                                Storage.removeItem(AsynchStoragekey.bearer);
+                                global.token = '';
+                                navigation.replace('Login')
+                            }} />
+                        </View>
+                    </View>
+                </View>
+            </Modal >
         </View>
     )
 }
@@ -115,4 +139,50 @@ const styles = StyleSheet.create({
         color: Colors.black,
         fontSize: 14,
     },
+
+    // for logout
+    modalContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+    },
+    modal: {
+        width: wp(90),
+        borderRadius: 11,
+        backgroundColor: 'white',
+        padding: 20,
+        alignItems: 'center',
+    },
+    added: {
+        fontFamily: fonts.PSB,
+        color: Colors.black,
+        width: wp(70),
+        margin: wp(2),
+        textAlign: 'center',
+    },
+    reviewCount: {
+        fontFamily: fonts.PL,
+        color: Colors.black,
+        fontSize: 12,
+    },
+    button1: {
+        width: wp(30),
+        margin: wp(2),
+        height: hp(6),
+        backgroundColor: Colors.white,
+        borderRadius: 8,
+        borderWidth: wp(0.4),
+        borderColor: Colors.violet
+    },
+    buttontext: {
+        color: Colors.violet,
+        fontFamily: fonts.PSB
+    },
+    button: {
+        width: wp(30),
+        margin: wp(2),
+        height: hp(6)
+    },
+
 })

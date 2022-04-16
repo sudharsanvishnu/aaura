@@ -153,6 +153,7 @@ const Home = ({ navigation }) => {
                         onSnapToItem={(index) => setIndex(index)}
                     />
                 }
+                <Text></Text>
                 <Separator title="category" />
                 {category === null ? <ActivityIndicator size="large" color={Colors.violet} /> :
                     <FlatList
