@@ -1,5 +1,5 @@
 import { TextInput, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import { Colors, CommonStyle, fonts, hp, wp } from '../../utils/Constant'
 import ThreeTab from '../../components/ThreeTab';
@@ -17,6 +17,25 @@ const Cart = ({ navigation }) => {
     const [state, setState] = useState();
     const [country, setCountry] = useState();
     const [pincode, setPincode] = useState();
+
+
+    useEffect(() => {
+
+        let headers = new Headers();
+        headers.append("Authorization", "Bearer " + global.token.trim());
+
+        const requestOptions = {
+            method: 'GET',
+            headers: headers,
+        };
+
+        fetch('https://theaaura.com/api/v1/carts/91' + global.userId, requestOptions)
+            .then(res => res.json())
+            .then(response => {
+                console.log(response, 'this is cart items')
+            }
+            ).catch(err => console.log(err))
+    }, [])
 
     const renderComponent = () => {
         if (tab === 0) {

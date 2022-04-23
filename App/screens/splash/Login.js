@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, TextInput, Pressable, TouchableOpacity, Alert, Modal } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, Image, TextInput, Pressable, TouchableOpacity, Alert, Modal, KeyboardAvoidingView, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Colors, CommonStyle, fonts, height, hp, wp } from '../../utils/Constant'
 import Button from '../../components/Button';
@@ -24,6 +24,7 @@ const Login = ({ navigation }) => {
     // for register
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(true);
@@ -35,7 +36,7 @@ const Login = ({ navigation }) => {
 
     const EnterPhone = () => {
         return (
-            <View style={[styles.loginView, CommonStyle.shadow]} >
+            <View style={[styles.register, CommonStyle.shadow]} >
                 <Text style={styles.text} >Register</Text>
                 <Text style={styles.title} >Name</Text>
                 <TextInput
@@ -48,6 +49,12 @@ const Login = ({ navigation }) => {
                 <TextInput
                     placeholder='Enter your email address'
                     onChangeText={text => setEmail(text)}
+                    style={styles.textInput}
+                />
+                <Text style={styles.title} >Mobile</Text>
+                <TextInput
+                    placeholder='Enter your mobile number '
+                    onChangeText={(text) => setPhone(text)}
                     style={styles.textInput}
                 />
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
@@ -79,6 +86,7 @@ const Login = ({ navigation }) => {
                     formdata.append("name", name);
                     formdata.append("email", email);
                     formdata.append("password", password);
+                    formdata.append('phone', phone);
 
                     const requestOptions = {
                         method: 'POST',
@@ -89,6 +97,7 @@ const Login = ({ navigation }) => {
                     fetch('https://theaaura.com/api/v1/auth/signup', requestOptions)
                         .then(response => response.json())
                         .then(result => {
+                            console.log(result, 'register')
                             if (result.message === 'Registration Successful. Please verify and log in to your account.') {
                                 setVerifyOtp(true);
                             } else {
@@ -152,8 +161,10 @@ const Login = ({ navigation }) => {
                         .then(response => response.json())
                         .then(result => {
                             if (result.access_token) {
+                                global.userId = result.user.id;
                                 global.token = result.access_token;
                                 Storage.setItem(AsynchStoragekey.bearer, result);
+                                Storage.setItem(AsynchStoragekey.userId, result.user.id);
                                 navigation.replace('DrawerScreen');
                             } else {
                                 Alert.alert(result.message, 'Username or password is incorrect');
@@ -175,32 +186,27 @@ const Login = ({ navigation }) => {
                             <TextInput
                                 placeholder='Enter your email address'
                                 onChangeText={text => setResetEmail(text)}
+                                selectionColor={Colors.violet}
                                 style={styles.textInput}
                             />
                             <Button title="SEND RESET LINK" style={styles.button} onPress={() => {
-                                // setReset(false);
                                 var formdata = new FormData();
-
                                 formdata.append("email", resetEmail);
 
                                 const requestOptions = {
                                     method: 'POST',
                                     body: formdata,
-                                    redirect: 'follow'
                                 };
 
-                                fetch('https://theaaura.com/api/v1/auth/password/create', requestOptions)
-                                    .then(response => response.json())
-                                    .then(result => {
-                                        console.log(result, 'this is re')
+                                fetch('https://theaaura.com/api/v1/auth/password/create', requestOptions).then(response => response.json()).then(result => {
+                                    if (result.message === 'Password reset link sent to your email address.') {
                                         setReset(false);
-                                    }
-                                    )
-                                    .catch(error => {
-                                        console.log('error', error)
+                                        Alert.alert(result.message);
+                                    } else {
                                         setReset(false);
+                                        Alert.alert(result.message);
                                     }
-                                    );
+                                }).catch(error => console.log('error', error));
                             }} />
                         </View>
                     </View>
@@ -210,12 +216,12 @@ const Login = ({ navigation }) => {
     }
 
     return (
-        <SafeAreaView>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"} >
             <View style={[CommonStyle.container, styles.container]} >
                 <Image source={require('../../assets/image/new.png')} style={styles.logo} resizeMode="contain" />
                 {verifyOtp ? VerifyOtpScreen() : EnterPhone()}
             </View>
-        </SafeAreaView >
+        </KeyboardAvoidingView>
     )
 }
 
@@ -236,6 +242,18 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         paddingHorizontal: wp(10),
+        borderTopLeftRadius: wp(20),
+        // borderTopRightRadius: wp(40),
+        borderWidth: wp(1.4),
+        borderColor: Colors.violet
+    },
+    register: {
+        width: wp(100),
+        // height: hp(100),
+        flex: 1,
+        backgroundColor: '#fff',
+        paddingHorizontal: wp(10),
+        marginTop: hp(-4),
         borderTopLeftRadius: wp(20),
         // borderTopRightRadius: wp(40),
         borderWidth: wp(1.4),

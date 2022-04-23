@@ -11,7 +11,6 @@ import { acc } from 'react-native-reanimated';
 
 const Home = ({ navigation }) => {
 
-
     const isCarousel = useRef(1)
     const [index, setIndex] = useState(0);
 
@@ -44,7 +43,7 @@ const Home = ({ navigation }) => {
     // banner
     useEffect(() => {
         const bannerData = () => {
-            fetch('https://theaaura.com/api/v1/banners').then(response => response.json()).then(response => {
+            fetch('https://theaaura.com/api/v1/sliders').then(response => response.json()).then(response => {
                 setBanner(response.data)
             }).catch(err => console.log(err))
         }
@@ -139,19 +138,21 @@ const Home = ({ navigation }) => {
                     </View>
                 </View>
                 {banner === null ? <ActivityIndicator size="large" color={Colors.violet} /> :
-                    <Carousel
-                        data={banner}
-                        useScrollView={true}
-                        ref={isCarousel}
-                        autoplay={true}
-                        loop={true}
-                        autoplayDelay={1000}
-                        sliderWidth={wp(100)}
-                        itemWidth={wp(100)}
-                        renderItem={CarouselCardItem}
-                        layout={'stack'}
-                        onSnapToItem={(index) => setIndex(index)}
-                    />
+                    <View style={CommonStyle.shadow3} >
+                        <Carousel
+                            data={banner}
+                            useScrollView={true}
+                            ref={isCarousel}
+                            autoplay={true}
+                            loop={true}
+                            autoplayDelay={1000}
+                            sliderWidth={wp(100)}
+                            itemWidth={wp(100)}
+                            renderItem={CarouselCardItem}
+                            layout={'stack'}
+                            onSnapToItem={(index) => setIndex(index)}
+                        />
+                    </View>
                 }
                 <Text></Text>
                 <Separator title="category" />

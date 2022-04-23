@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, ScrollView, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import { Colors, CommonStyle, fonts, hp, wp } from '../../utils/Constant';
@@ -26,6 +26,10 @@ const ProductDetail = ({ route, navigation }) => {
         productData()
     }, [])
 
+    useEffect(() => {
+
+    }, [])
+
     return (
         <View style={styles.container} >
             <ScrollView stickyHeaderIndices={[7]}>
@@ -43,7 +47,40 @@ const ProductDetail = ({ route, navigation }) => {
                         <Button title='add to waishlist' style={styles.wishButton} buttontext={{ color: Colors.violet, textTransform: 'uppercase', }} />
                     </View>
                     <View style={CommonStyle.shadow} >
-                        <Button title='add to cart' style={styles.cartButton} buttontext={{ textTransform: 'uppercase', }} />
+                        <Button title='add to cart' style={styles.cartButton} buttontext={{ textTransform: 'uppercase', }}
+
+                            onPress={() => {
+                                let headers = new Headers();
+                                headers.append("Authorization", "Bearer " + global.token.trim());
+
+                                let formdata = new FormData();
+                                formdata.append("user_id", global.userId);
+                                formdata.append("id", item.id);
+
+                                const requestOptions = {
+                                    method: 'POST',
+                                    headers: headers,
+                                    body: formdata,
+                                };
+
+                                fetch('https://theaaura.com/api/v1/carts/add', requestOptions).then(res => res.json())
+                                    .then(response => {
+                                        if (response.message === "Product added to cart successfully") {
+                                            Alert.alert(
+                                                'Success',
+                                                'Product added to cart successfully',
+                                                [
+                                                    { text: 'OK', onPress: () => console.log('OK Pressed') },
+                                                ],
+                                                { cancelable: false }
+                                            );
+                                        } else {
+                                            alert(response.message)
+                                        }
+                                    })
+                                    .catch(err => console.log(err))
+                            }}
+                        />
                     </View>
                 </View>
                 <Text style={[styles.title, { marginTop: hp(2) }]} >Description</Text>

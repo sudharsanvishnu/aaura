@@ -21,6 +21,9 @@ const Splash = ({ navigation }) => {
     const CHECK_USER = async () => {
         const account_info = await Storage.getItem(AsynchStoragekey.bearer);
         global.token = account_info.access_token;
+
+        const userId = await Storage.getItem(AsynchStoragekey.userId);
+        global.userId = userId;
     }
 
 

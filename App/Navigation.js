@@ -33,7 +33,7 @@ LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
 global.token = '';
-
+global.userId = '';
 
 const DrawerScreen = () => {
     return (
