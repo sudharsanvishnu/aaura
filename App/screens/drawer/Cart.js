@@ -1,9 +1,10 @@
-import { TextInput, StyleSheet, Text, View } from 'react-native'
+import { TextInput, StyleSheet, Text, View, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import { Colors, CommonStyle, fonts, hp, wp } from '../../utils/Constant'
 import ThreeTab from '../../components/ThreeTab';
 import Button from '../../components/Button';
+import Card from '../../components/Card';
 
 const Cart = ({ navigation }) => {
 
@@ -19,8 +20,10 @@ const Cart = ({ navigation }) => {
     const [pincode, setPincode] = useState();
 
 
-    useEffect(() => {
+    // for cart items
+    const [cartItems, setCartItems] = useState();
 
+    useEffect(() => {
         let headers = new Headers();
         headers.append("Authorization", "Bearer " + global.token.trim());
 
@@ -29,10 +32,11 @@ const Cart = ({ navigation }) => {
             headers: headers,
         };
 
-        fetch('https://theaaura.com/api/v1/carts/91' + global.userId, requestOptions)
+        fetch('https://theaaura.com/api/v1/cartlist', requestOptions)
             .then(res => res.json())
             .then(response => {
-                console.log(response, 'this is cart items')
+                console.log(response.data, 'this is cart items')
+                setCartItems(response.data)
             }
             ).catch(err => console.log(err))
     }, [])
@@ -41,6 +45,17 @@ const Cart = ({ navigation }) => {
         if (tab === 0) {
             return (
                 <View style={styles.center} >
+                    <FlatList
+                        data={cartItems}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) => {
+                            return (
+                                <View>
+                                    <Card item={item} />
+                                </View>
+                            )
+                        }}
+                    />
                     <Text style={styles.textContent} >  Your cart is empty</Text>
                 </View>
             )

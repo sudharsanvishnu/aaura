@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ActivityIndicator, Modal, TextInput, FlatList, KeyboardAvoidingView, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Image, ActivityIndicator, Modal, TextInput, FlatList, KeyboardAvoidingView, Pressable, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Colors, CommonStyle, fonts, hp, wp } from '../../utils/Constant'
 import Header from '../../components/Header'
@@ -13,17 +13,22 @@ const Profile = ({ navigation }) => {
 
     useEffect(() => {
 
+        getAddress();
+    }, [address])
+
+    const getAddress = () => {
         let headers = new Headers();
         headers.append("Authorization", "Bearer " + global.token.trim());
 
         const requestOptions = { method: 'GET', headers: headers, redirect: 'follow' };
 
-        fetch('https://theaaura.com/api/v1/user/shipping/address/91', requestOptions).then(response => response.json()).then(response => {
+        fetch('https://theaaura.com/api/v1/user/shipping/address', requestOptions).then(response => response.json()).then(response => {
             // console.log(response.data, 'response from api')
             setAddress(response.data)
+            console.log(address, 'thsi is get add')
         }
         ).catch(err => console.log(err))
-    }, [])
+    }
 
     /// for modal
     const [editAddress, setEditAddress] = useState(false);
@@ -118,11 +123,7 @@ const Profile = ({ navigation }) => {
                                                                 console.log('pressed delete', item.city);
 
                                                                 var formdata = new FormData();
-                                                                formdata.append("address", item.address);
-                                                                formdata.append("city", item.city);
-                                                                formdata.append("country", item.country);
-                                                                formdata.append("phone", item.phone);
-                                                                formdata.append("postal_code", item.postal_caode);
+                                                                formdata.append("id", item.id);
 
                                                                 let headers = new Headers();
                                                                 headers.append("Authorization", "Bearer " + global.token.trim());
@@ -132,10 +133,18 @@ const Profile = ({ navigation }) => {
                                                                     headers: headers,
                                                                     body: formdata
                                                                 }
-                                                                fetch('https://theaaura.com/api/v1/user/shipping/delete/9', requestOptions)
+                                                                fetch('https://theaaura.com/api/v1/user/shipping/delete', requestOptions)
                                                                     .then(res => res.json())
                                                                     .then(response => {
-                                                                        console.log(response, 'from delete');
+                                                                        if (response.message === "Shipping information has been deleted") {
+                                                                            // setAddress(response.data);
+                                                                            setEditAddress(false);
+                                                                            Alert.alert('', 'Shipping information has been deleted', [{ text: 'OK', onPress: () => { } }]);
+                                                                            // setEditAddress(false);
+                                                                            getAddress();
+                                                                        } else {
+                                                                            Alert.alert('Please try again later!');
+                                                                        }
                                                                     }
                                                                     ).catch(err => { console.log(err); })
                                                             }} >
@@ -198,7 +207,7 @@ const Profile = ({ navigation }) => {
                                                 onPress={() => {
                                                     var formdata = new FormData();
 
-                                                    formdata.append("user_id", address[0].user_id);
+                                                    formdata.append("user_id", global.userId);
                                                     formdata.append("address", newAddress);
                                                     formdata.append("city", newCity);
                                                     formdata.append("country", newCountry);

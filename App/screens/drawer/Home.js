@@ -26,6 +26,7 @@ const Home = ({ navigation }) => {
 
     // for api data
     const [banner, setBanner] = useState(null);
+    const [slider, setSlider] = useState(null);
     const [category, setCategory] = useState(null);
     const [today, setToday] = useState(null);
     const [featured, setFeatured] = useState(null);
@@ -40,10 +41,20 @@ const Home = ({ navigation }) => {
     const [womensView, setWomensView] = useState(2);
     const [snackView, setSnackView] = useState(2);
     const [accView, setAccView] = useState(2);
+
+    // home slider 
+    useEffect(() => {
+        const sliderData = () => {
+            fetch('https://theaaura.com/api/v1/sliders').then(res => res.json()).then(response => {
+                setSlider(response.data)
+            }).catch(err => { console.log(err) })
+        }
+        sliderData()
+    }, [slider, setSlider])
     // banner
     useEffect(() => {
         const bannerData = () => {
-            fetch('https://theaaura.com/api/v1/sliders').then(response => response.json()).then(response => {
+            fetch('https://theaaura.com/api/v1/banners').then(response => response.json()).then(response => {
                 setBanner(response.data)
             }).catch(err => console.log(err))
         }
@@ -140,7 +151,7 @@ const Home = ({ navigation }) => {
                 {banner === null ? <ActivityIndicator size="large" color={Colors.violet} /> :
                     <View style={CommonStyle.shadow3} >
                         <Carousel
-                            data={banner}
+                            data={slider}
                             useScrollView={true}
                             ref={isCarousel}
                             autoplay={true}
