@@ -5,6 +5,7 @@ import { Colors, CommonStyle, fonts, hp, wp } from '../../utils/Constant'
 import ThreeTab from '../../components/ThreeTab';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
+import CartItem from '../../components/CartItem';
 
 const Cart = ({ navigation }) => {
 
@@ -35,8 +36,8 @@ const Cart = ({ navigation }) => {
         fetch('https://theaaura.com/api/v1/cartlist', requestOptions)
             .then(res => res.json())
             .then(response => {
-                console.log(response.data, 'this is cart items')
                 setCartItems(response.data)
+                console.log(response.data, 'this is cart items')
             }
             ).catch(err => console.log(err))
     }, [])
@@ -44,20 +45,21 @@ const Cart = ({ navigation }) => {
     const renderComponent = () => {
         if (tab === 0) {
             return (
-                <View style={styles.center} >
+                <>
                     <FlatList
                         data={cartItems}
+                        numColumns={2}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => {
                             return (
                                 <View>
-                                    <Card item={item} />
+                                    {/* <Card item={item} /> */}
+                                    <CartItem item={item} />
                                 </View>
                             )
                         }}
                     />
-                    <Text style={styles.textContent} >  Your cart is empty</Text>
-                </View>
+                </>
             )
         } else if (tab === 1) {
             return (
@@ -92,7 +94,7 @@ const Cart = ({ navigation }) => {
         } else {
             return (
                 <View style={styles.center} >
-                    <Text style={styles.textContent} >Payment is empty</Text>
+                    <Text style={styles.textContent} >Order hsitory is empty</Text>
                 </View>
             )
         }
@@ -108,12 +110,14 @@ const Cart = ({ navigation }) => {
                     setCurrentTab={index => setTab(index)}
                     data={[
                         { name: 'Cart', value: 0 },
-                        { name: 'Address', value: 1 },
-                        { name: 'Payment', value: 2 },
+                        // { name: 'Address', value: 1 },
+                        { name: 'Order History', value: 2 },
                     ]}
                 />
             </View>
             {renderComponent()}
+            <View style={{ flex: 1 }} />
+            <Button title="PLACE ORDER" style={{ height: hp(6), marginHorizontal: wp(3), marginBottom: hp(5) }} onPress={() => { }} />
         </View>
     )
 }

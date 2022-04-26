@@ -5,6 +5,8 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 const Card = ({ item }) => {
 
+    // console.log(item, 'cart item')
+
     return (
         <View style={styles.cardView} >
             <View style={CommonStyle.shadow} >

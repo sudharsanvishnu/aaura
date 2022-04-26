@@ -18,19 +18,21 @@ const ProductDetail = ({ route, navigation }) => {
     const [productDetail, setProductDetail] = useState(null);
     const [variant, setVariant] = useState(null);
     const [qty, setQty] = useState(1);
-    const [itemPrice, setItemPrice] = useState(item.base_discounted_price.substring(3));
+    const [itemPrice, setItemPrice] = useState(null);
 
     useEffect(() => {
         fetch(String(item?.links?.details))
             .then(res => res.json())
             .then(res => {
                 setProductDetail(res.data);
+                setItemPrice(productDetail.discounted_price.substring(3));
                 console.log(res.data, 'pro deta')
             })
             .catch(err => {
                 console.log(err);
             })
-    }, [])
+    }, [item, productDetail])
+
 
     useEffect(() => {
         const productData = () => {
@@ -43,6 +45,9 @@ const ProductDetail = ({ route, navigation }) => {
         }
         productData()
     }, [])
+
+    // for storing the size
+    const [attributes, setAttributes] = useState([]);
 
     return (
         <View style={styles.container} >
@@ -58,20 +63,22 @@ const ProductDetail = ({ route, navigation }) => {
                             <Text style={styles.contentText} >-  {productDetail.available_qty} left</Text>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: wp(4) }} >
-                            <Text style={styles.contentText} onPress={() => {
+                            <Text style={styles.minus} onPress={() => {
                                 if (qty > 1) {
                                     setQty(qty - 1)
+                                    setItemPrice(productDetail.discounted_price.substring(3) * (qty - 1), 'minus discounted_price');
+                                    console.log(productDetail.discounted_price.substring(3) * qty, 'minus discounted_price')
                                     console.log(itemPrice, 'this is item price')  // itemPrice - (itemPrice * (qty - 1))
                                 } else {
-                                    Alert.alert('Out of stock')
+                                    Alert.alert('Minimum order quantity is one')
                                 }
                             }} >-</Text>
-                            <Text style={styles.contentText} > {qty}</Text>
-                            <Text style={styles.contentText} onPress={() => {
+                            <Text style={styles.qtyView} > {qty}</Text>
+                            <Text style={styles.minus} onPress={() => {
                                 if (productDetail.available_qty > qty) {
                                     setQty(qty + 1);
-                                    setItemPrice(itemPrice + item.base_discounted_price.substring(3))
-                                    console.log((itemPrice) * 2, 'this is item price')  // itemPrice + (itemPrice * (qty - 1))
+                                    setItemPrice(productDetail.discounted_price.substring(3) * (qty + 1))
+                                    console.log(productDetail.discounted_price.substring(3) * qty, 'this is item price')  // itemPrice + (itemPrice * (qty - 1))
                                 } else {
                                     console.log(qty)
                                     Alert.alert('Out of stock')
@@ -83,7 +90,11 @@ const ProductDetail = ({ route, navigation }) => {
                         {productDetail.product_variants.map((item, index) => {
                             return (
                                 <Pressable key={index}
-                                    onPress={() => { setVariant(item) }}
+                                    onPress={() => {
+                                        setVariant(item)
+                                        setAttributes(item?.value)
+                                        console.log(attributes, 'this is selected size')
+                                    }}
                                     style={
                                         {
                                             flexDirection: 'row',
@@ -104,7 +115,7 @@ const ProductDetail = ({ route, navigation }) => {
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: wp(3) }} >
                         <Text style={styles.title} >Price</Text>
                         <Text style={styles.strike} >{item.base_price}</Text>
-                        <Text style={styles.price}>{itemPrice}</Text>
+                        <Text style={styles.price}>Rs {itemPrice}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: wp(3) }} >
                         <View style={CommonStyle.shadow} >
@@ -116,6 +127,7 @@ const ProductDetail = ({ route, navigation }) => {
 
                                     let formdata = new FormData();
                                     formdata.append("product_id", item.id);
+                                    formdata.append("variant_id", attributes);
 
                                     const requestOptions = {
                                         method: 'POST',
@@ -258,5 +270,16 @@ const styles = StyleSheet.create({
         fontFamily: fonts.PM,
         fontSize: 13,
         color: Colors.black
+    },
+    qtyView: {
+        width: wp(7),
+        textAlign: 'center',
+        fontFamily: fonts.PSB,
+        color: Colors.black,
+    },
+    minus: {
+        color: Colors.black,
+        fontFamily: fonts.PSB,
+        fontSize: wp(5)
     }
 })
