@@ -17,12 +17,18 @@ import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.clipboard.ClipboardPackage;
 // @react-native-community/masked-view
 import org.reactnative.maskedview.RNCMaskedViewPackage;
+// @react-native-firebase/app
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
+// paytm_allinone_react-native
+import com.arnpaytmallinone.AllInOneSDKManagerPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-otp-verify
 import com.faizal.OtpVerify.RNOtpVerifyPackage;
 // react-native-pager-view
 import com.reactnativepagerview.PagerViewPackage;
+// react-native-push-notification
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 // react-native-razorpay
 import com.razorpay.rn.RazorpayPackage;
 // react-native-reanimated
@@ -81,9 +87,12 @@ public class PackageList {
       new AsyncStoragePackage(),
       new ClipboardPackage(),
       new RNCMaskedViewPackage(),
+      new ReactNativeFirebaseAppPackage(),
+      new AllInOneSDKManagerPackage(),
       new RNGestureHandlerPackage(),
       new RNOtpVerifyPackage(),
       new PagerViewPackage(),
+      new ReactNativePushNotificationPackage(),
       new RazorpayPackage(),
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),

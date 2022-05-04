@@ -6,6 +6,7 @@ import ThreeTab from '../../components/ThreeTab';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
 import CartItem from '../../components/CartItem';
+import AllInOneSDKManager from 'paytm_allinone_react-native';
 
 const Cart = ({ navigation }) => {
 
@@ -42,6 +43,51 @@ const Cart = ({ navigation }) => {
             ).catch(err => console.log(err))
     }, [])
 
+    // Merchant id : VBieSA30751492066952
+
+    // Merchant Key: pwXD0SypcdRAuAPw
+
+    const payNow = () => {
+
+        let orderId = Math.floor(Math.random() * 100000);
+        let amount = '250';
+        mid = 'VBieSA30751492066952';
+        callbackUrl = 'https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=' + orderId;
+        let tranxToken = 'eJxVUtkPwjAUhf8q';
+
+        console.log(orderId, amount, mid, callbackUrl, tranxToken, 'this is order id')
+
+        const orderDetails = {
+            orderId: "Aaura031",
+            amount: "100.00",
+            mid: "PyFMbI23122449162864",
+            callbackUrl: "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=TESTORDER_01",
+            tranxToken: "WADE0003567887",
+            isStaging: true,
+            appInvokeRestricted: false,
+            urlScheme: 'paytmMIDVBieSA30751492066952',
+        };
+
+        AllInOneSDKManager.startTransaction(
+            orderDetails.orderId,
+            orderDetails.mid,
+            orderDetails.tranxToken,
+            orderDetails.amount,
+            orderDetails.callbackUrl,
+            orderDetails.isStaging,
+            orderDetails.appInvokeRestricted,
+            orderDetails.urlScheme
+        )
+            .then((result) => {
+                console.log(result, 'this is result')
+            })
+            .catch((err) => {
+                handleError(err);
+            });
+
+    }
+
+
     const renderComponent = () => {
         if (tab === 0) {
             return (
@@ -55,6 +101,13 @@ const Cart = ({ navigation }) => {
                                 <View>
                                     {/* <Card item={item} /> */}
                                     <CartItem item={item} />
+                                </View>
+                            )
+                        }}
+                        ListFooterComponent={() => {
+                            return (
+                                <View style={{ height: hp(10) }} >
+                                    <Button title={'checkout'} onPress={() => payNow()} />
                                 </View>
                             )
                         }}

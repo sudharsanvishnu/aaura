@@ -9,14 +9,11 @@ const Privacy = ({ navigation }) => {
     const [priData, setPriData] = useState(null);
 
     useEffect(() => {
-        const API_CALL = () => {
-            fetch('https://theaaura.com/api/v1/policies/return').then(response => response.json()).then(response => {
-                setPriData(response.data)
-            }
-            ).catch(err => console.log(err))
+        fetch('https://theaaura.com/api/v1/policies/return').then(response => response.json()).then(response => {
+            setPriData(response.data)
         }
-        return API_CALL()
-    }, [priData, setPriData])
+        ).catch(err => console.log(err))
+    }, [])
 
 
     const HtmlSource = { html: priData[0]?.content };

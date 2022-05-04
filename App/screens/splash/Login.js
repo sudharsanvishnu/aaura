@@ -242,8 +242,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         paddingHorizontal: wp(10),
-        borderTopLeftRadius: wp(20),
-        // borderTopRightRadius: wp(40),
+        borderTopLeftRadius: wp(10),
+        borderTopRightRadius: wp(10),
         borderWidth: wp(1.4),
         borderColor: Colors.violet
     },
@@ -254,8 +254,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         paddingHorizontal: wp(10),
         marginTop: hp(-4),
-        borderTopLeftRadius: wp(20),
-        // borderTopRightRadius: wp(40),
+        borderTopLeftRadius: wp(10),
+        borderTopRightRadius: wp(10),
         borderWidth: wp(1.4),
         borderColor: Colors.violet
     },

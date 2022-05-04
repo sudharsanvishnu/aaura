@@ -151,6 +151,7 @@ const ProductDetail = ({ route, navigation }) => {
 
                                 onPress={() => {
                                     let headers = new Headers();
+
                                     headers.append("Authorization", "Bearer " + global.token.trim());
 
                                     let formdata = new FormData();

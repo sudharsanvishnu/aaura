@@ -7,12 +7,24 @@ import Feather from 'react-native-vector-icons/Feather';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import Card from '../../components/Card';
 import { acc } from 'react-native-reanimated';
+import { Storage } from '../../local storage';
 
 
 const Home = ({ navigation }) => {
 
     const isCarousel = useRef(1)
     const [index, setIndex] = useState(0);
+
+
+
+    useEffect(() => {
+        CHECK_USER();
+    }, []);
+
+    const CHECK_USER = async () => {
+        const account_info = await Storage.getItem('fcmToken');
+        console.log('fcmToken====================', account_info);
+    }
 
 
     const car = [
