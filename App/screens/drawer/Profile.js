@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ActivityIndicator, Modal, TextInput, FlatList, KeyboardAvoidingView, Pressable, Alert } from 'react-native'
+import { StyleSheet, Text, View, Image, ActivityIndicator, Modal, TextInput, FlatList, KeyboardAvoidingView, Pressable, Alert, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Colors, CommonStyle, fonts, hp, wp } from '../../utils/Constant'
 import Header from '../../components/Header'
@@ -11,8 +11,34 @@ const Profile = ({ navigation }) => {
     // for rendering address
     const [address, setAddress] = useState(null);
 
-    useEffect(() => {
+    // https://theaaura.com/api/v1/user/info/91
 
+
+    const [user, setUser] = useState(null);
+    useEffect(() => {
+        let headers = new Headers();
+        headers.append("Authorization", "Bearer " + global.token.trim());
+
+        const requestOptions = { method: 'GET', headers }
+
+        fetch('https://theaaura.com/api/v1/user/info/', requestOptions).then(response => response.json()).then(response => {
+            console.log(response.data, 'this is user profile');
+            setUser(response.data)
+        })
+
+    }, [user])
+
+    const userData = [
+        { label: 'name', value: user?.name },
+        { label: 'email', value: user?.email },
+        // { label: 'phone', value: user[0]?.phone },
+        //     { label: 'address', value: user[0]?.address },
+        //     { label: 'city', value: user[0]?.city },
+        //     { label: 'country', value: user[0]?.country },
+        // { label: 'postal code', value: user[0]?.postal_code },
+    ]
+
+    useEffect(() => {
         getAddress();
     }, [address])
 
@@ -25,7 +51,7 @@ const Profile = ({ navigation }) => {
         fetch('https://theaaura.com/api/v1/user/shipping/address', requestOptions).then(response => response.json()).then(response => {
             // console.log(response.data, 'response from api')
             setAddress(response.data)
-            console.log(address, 'thsi is get add')
+            // console.log(address, 'thsi is get add')
         }
         ).catch(err => console.log(err))
     }
@@ -44,210 +70,255 @@ const Profile = ({ navigation }) => {
     return (
         <View style={CommonStyle.container2}>
             <Header navigation={navigation} />
-            <View style={styles.profileView} >
-                <View style={styles.proPic} >
-                    <View style={[styles.circleView2, CommonStyle.shadow]} >
-                        <Image source={require('../../assets/image/user.png')} resizeMode='contain' style={styles.circleView} />
+            <ScrollView>
+                <View style={styles.profileView} >
+                    <View style={styles.proPic} >
+                        <View style={[styles.circleView2, CommonStyle.shadow]} >
+                            <Image source={require('../../assets/image/user.png')} resizeMode='contain' style={styles.circleView} />
+                        </View>
+                        <Text style={styles.name} >Profile</Text>
                     </View>
-                    <Text style={styles.name} >Profile</Text>
+                    {/* // for pencil */}
                 </View>
-                {/* // for pencil */}
-            </View>
-            <View style={{ flexDirection: 'row' }} >
-                {address === null ? <ActivityIndicator size="large" color={Colors.violet} /> :
-                    <View>
-                        <View style={[styles.box, CommonStyle.shadow]} >
-                            <View style={{ flexDirection: 'row', width: wp(40), justifyContent: 'space-between' }} >
-                                <View>
-                                    <Text style={styles.address} >Address</Text>
-                                    <View style={styles.line} />
+                <View style={{ marginHorizontal: wp(3), flexDirection: 'row' }} >
+                    {user === null ? <ActivityIndicator size='large' color={Colors.violet} /> :
+                        <FlatList
+                            data={user}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item, index }) => {
+                                return (
+                                    <View style={{ width: wp(100), marginHorizontal: wp(2), marginTop: hp(2), padding: wp(2), backgroundColor: Colors.visible }} >
+                                        <View style={styles.contentView} >
+                                            <Text style={styles.contentLeft} >Name</Text>
+                                            <Text style={styles.contentRight} >{item.name}</Text>
+                                        </View>
+                                        <View style={styles.contentView} >
+                                            <Text style={styles.contentLeft}  >Email</Text>
+                                            <Text style={styles.contentRight}  >{item.email}</Text>
+                                        </View>
+                                        <View style={styles.contentView} >
+                                            <Text style={styles.contentLeft}  >contact number</Text>
+                                            <Text style={styles.contentRight}  >{item.phone}</Text>
+                                        </View>
+                                        <View style={styles.contentView} >
+                                            <Text style={styles.contentLeft}  >Address</Text>
+                                            <Text style={styles.contentRight} >{item.address}</Text>
+                                        </View>
+                                        <View style={styles.contentView} >
+                                            <Text style={styles.contentLeft}  >city</Text>
+                                            <Text style={styles.contentRight}  >{item.city}</Text>
+                                        </View>
+                                        <View style={styles.contentView} >
+                                            <Text style={styles.contentLeft}  >country</Text>
+                                            <Text style={styles.contentRight}  >{item.country}</Text>
+                                        </View>
+                                        <View style={styles.contentView} >
+                                            <Text style={styles.contentLeft}  >post code</Text>
+                                            <Text style={styles.contentRight}  >{item.postal_code}</Text>
+                                        </View>
+                                    </View>
+                                )
+                            }}
+                        />
+                    }
+                </View>
+                <View style={{ flexDirection: 'row' }} >
+                    {address === null ? <ActivityIndicator size="large" color={Colors.violet} /> :
+                        <View>
+                            <View style={[styles.box, CommonStyle.shadow]} >
+                                <View style={{ flexDirection: 'row', width: wp(40), justifyContent: 'space-between' }} >
+                                    <View>
+                                        <Text style={styles.address} >Address</Text>
+                                        <View style={styles.line} />
+                                    </View>
+                                    <TouchableOpacity activeOpacity={0.5} onPress={() => setEditAddress(true)} >
+                                        <AntDesign name='edit' size={wp(6)} color={Colors.violet} />
+                                    </TouchableOpacity>
                                 </View>
-                                <TouchableOpacity activeOpacity={0.5} onPress={() => setEditAddress(true)} >
-                                    <AntDesign name='edit' size={wp(6)} color={Colors.violet} />
+                                <TouchableOpacity activeOpacity={0.6} style={{ alignItems: 'center' }} onPress={() => setShowAddress(true)} >
+                                    <Text style={styles.contentText} numberOfLines={2} >{address[0]?.address}</Text>
+                                    <Text style={styles.contentText} numberOfLines={1} >{address[0]?.city}</Text>
+                                    <Text style={styles.contentText} numberOfLines={1} >{address[0]?.country}</Text>
                                 </TouchableOpacity>
                             </View>
-                            <TouchableOpacity activeOpacity={0.6} style={{ alignItems: 'center' }} onPress={() => setShowAddress(true)} >
-                                <Text style={styles.contentText} numberOfLines={2} >{address[0]?.address}</Text>
-                                <Text style={styles.contentText} numberOfLines={1} >{address[0]?.city}</Text>
-                                <Text style={styles.contentText} numberOfLines={1} >{address[0]?.country}</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <Modal transparent={true} visible={showAddress} animationType='fade' onRequestClose={() => setShowAddress(false)} >
-                            <View style={[styles.modalContainer, { backgroundColor: 'rgba(0,0,0,0.7)', }]} >
-                                <View style={styles.modelView} >
-                                    <Text style={styles.address} >SHIPPING ADDRESS</Text>
-                                    <View style={styles.line} />
-                                    <FlatList
-                                        data={address}
-                                        keyExtractor={(item, index) => index.toString()}
-                                        numColumns={2}
-                                        renderItem={({ item, index }) => {
-                                            return (
-                                                <View style={[styles.cards, { width: wp(40), margin: wp(2), padding: wp(2) }]} >
-                                                    <Text style={styles.contentText} numberOfLines={5} >{item.address}</Text>
-                                                    <Text style={styles.contentText} numberOfLines={1} >{item.phone}</Text>
-                                                    <Text style={styles.contentText} numberOfLines={1} >{item.city}</Text>
-                                                    <Text style={styles.contentText} numberOfLines={1} >{item.postal_caode}</Text>
-                                                    <Text style={styles.contentText} numberOfLines={1} >{item.country}</Text>
-                                                </View>
-                                            )
-                                        }}
-                                    />
-                                    <Button title="CLOSE" style={[styles.cartButton, { width: wp(77), margin: hp(2) }]} onPress={() => setShowAddress(false)} />
-                                </View>
-                            </View>
-                        </Modal>
-                        <Modal transparent={true} visible={editAddress} >
-                            <KeyboardAvoidingView style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', }} behavior="padding" enabled>
-                                <View style={styles.modalContainer} >
+                            <Modal transparent={true} visible={showAddress} animationType='fade' onRequestClose={() => setShowAddress(false)} >
+                                <View style={[styles.modalContainer, { backgroundColor: 'rgba(0,0,0,0.7)', }]} >
                                     <View style={styles.modelView} >
                                         <Text style={styles.address} >SHIPPING ADDRESS</Text>
                                         <View style={styles.line} />
                                         <FlatList
                                             data={address}
                                             keyExtractor={(item, index) => index.toString()}
-                                            horizontal={true}
-                                            showsHorizontalScrollIndicator={false}
+                                            numColumns={2}
                                             renderItem={({ item, index }) => {
                                                 return (
-                                                    <View style={{ justifyContent: 'center', alignItems: 'center' }} >
-                                                        <View style={[styles.cards, { padding: wp(2), height: hp(18) }]} >
-                                                            <Text style={styles.contentText} numberOfLines={3} >{item.address}</Text>
-                                                            <Text style={styles.contentText} numberOfLines={1} >{item.phone}</Text>
-                                                            <Text style={styles.contentText} numberOfLines={1} >{item.city}</Text>
-                                                            <Text style={styles.contentText} numberOfLines={1} >{item.postal_caode}</Text>
-                                                            <Text style={styles.contentText} numberOfLines={1} >{item.country}</Text>
-                                                        </View>
-                                                        <View style={{ marginTop: hp(1) }} >
-                                                            <Pressable activeOpacity={0.5} style={{ backgroundColor: 'red' }} onPress={() => {
-                                                                console.log('pressed delete', item.city);
-
-                                                                var formdata = new FormData();
-                                                                formdata.append("id", item.id);
-
-                                                                let headers = new Headers();
-                                                                headers.append("Authorization", "Bearer " + global.token.trim());
-
-                                                                const requestOptions = {
-                                                                    method: 'POST',
-                                                                    headers: headers,
-                                                                    body: formdata
-                                                                }
-                                                                fetch('https://theaaura.com/api/v1/user/shipping/delete', requestOptions)
-                                                                    .then(res => res.json())
-                                                                    .then(response => {
-                                                                        if (response.message === "Shipping information has been deleted") {
-                                                                            // setAddress(response.data);
-                                                                            setEditAddress(false);
-                                                                            Alert.alert('', 'Shipping information has been deleted', [{ text: 'OK', onPress: () => { } }]);
-                                                                            // setEditAddress(false);
-                                                                            getAddress();
-                                                                        } else {
-                                                                            Alert.alert('Please try again later!');
-                                                                        }
-                                                                    }
-                                                                    ).catch(err => { console.log(err); })
-                                                            }} >
-                                                                <AntDesign name="delete" size={wp(6)} color={Colors.violet} />
-                                                            </Pressable>
-                                                        </View>
+                                                    <View style={[styles.cards, { width: wp(40), margin: wp(2), padding: wp(2) }]} >
+                                                        <Text style={styles.contentText} numberOfLines={5} >{item.address}</Text>
+                                                        <Text style={styles.contentText} numberOfLines={1} >{item.phone}</Text>
+                                                        <Text style={styles.contentText} numberOfLines={1} >{item.city}</Text>
+                                                        <Text style={styles.contentText} numberOfLines={1} >{item.postal_caode}</Text>
+                                                        <Text style={styles.contentText} numberOfLines={1} >{item.country}</Text>
                                                     </View>
                                                 )
                                             }}
                                         />
-                                        <View style={{ height: hp(2) }} />
-                                        <Text style={styles.address} >ADD NEW SHIPPING ADDRESS</Text>
-                                        <View style={styles.line} />
-                                        <View style={{ height: hp(1) }} />
-                                        <Text style={styles.contentText} >Enter Address</Text>
-                                        <TextInput
-                                            placeholder='Enter Address'
-                                            style={styles.textInput}
-                                            onChangeText={(text) => setNewAddress(text)}
-                                        />
-                                        <Text style={styles.contentText} >Enter City</Text>
-                                        <TextInput
-                                            placeholder='Enter City'
-                                            style={styles.textInput}
-                                            onChangeText={(text) => setNewCity(text)}
-                                        />
-                                        <Text style={styles.contentText} >Enter Country</Text>
-                                        <TextInput
-                                            placeholder='Enter Country'
-                                            style={styles.textInput}
-                                            onChangeText={(text) => setNewCountry(text)}
-                                        />
-                                        <Text style={styles.contentText} >Enter Phone</Text>
-                                        <TextInput
-                                            placeholder='Enter Phone'
-                                            maxLength={10}
-                                            style={styles.textInput}
-                                            onChangeText={(text) => setNewPhone(text)}
-                                        />
-                                        <Text style={styles.contentText} >Enter Pincode</Text>
-                                        <TextInput
-                                            placeholder='Enter Pincode'
-                                            maxLength={10}
-                                            style={styles.textInput}
-                                            onChangeText={(text) => setNewPincode(text)}
-                                        />
-                                        <View style={{ height: hp(2) }} />
-                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
-                                            <Button title='cancel' style={styles.wishButton} buttontext={{ color: Colors.violet, textTransform: 'uppercase', }}
-                                                onPress={() => {
-                                                    setEditAddress(false)
-                                                    setNewAddress(null)
-                                                    setNewCity(null)
-                                                    setNewCountry(null)
-                                                    setNewPhone(null)
-                                                    setNewPincode(null)
-                                                }}
-                                            />
-                                            <Button title='save' style={styles.cartButton} buttontext={{ textTransform: 'uppercase', }}
-                                                onPress={() => {
-                                                    var formdata = new FormData();
-
-                                                    formdata.append("user_id", global.userId);
-                                                    formdata.append("address", newAddress);
-                                                    formdata.append("city", newCity);
-                                                    formdata.append("country", newCountry);
-                                                    formdata.append("phone", newPhone);
-                                                    formdata.append("postal_code", newPincode);
-
-
-                                                    let headers = new Headers();
-                                                    headers.append("Authorization", "Bearer " + global.token.trim());
-
-                                                    const requestOptions = { method: 'POST', headers: headers, body: formdata };
-
-                                                    fetch('https://theaaura.com/api/v1/user/shipping/create', requestOptions).then(res => res.json())
-                                                        .then(response => {
-                                                            if (response.message) {
-                                                                setAddress(null);
-                                                                setEditAddress(false);
-                                                            } else {
-                                                                console.log(response, 'this is res');
-                                                            }
-                                                        }
-                                                        )
-                                                        .catch(err => console.log(err))
-                                                }}
-                                            />
-                                        </View>
-
+                                        <Button title="CLOSE" style={[styles.cartButton, { width: wp(77), margin: hp(2) }]} onPress={() => setShowAddress(false)} />
                                     </View>
                                 </View>
-                            </KeyboardAvoidingView>
-                        </Modal>
+                            </Modal>
+                            <Modal transparent={true} visible={editAddress} >
+                                <KeyboardAvoidingView style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', }} behavior="padding" enabled>
+                                    <View style={styles.modalContainer} >
+                                        <View style={styles.modelView} >
+                                            <Text style={styles.address} >SHIPPING ADDRESS</Text>
+                                            <View style={styles.line} />
+                                            <FlatList
+                                                data={address}
+                                                keyExtractor={(item, index) => index.toString()}
+                                                horizontal={true}
+                                                showsHorizontalScrollIndicator={false}
+                                                renderItem={({ item, index }) => {
+                                                    return (
+                                                        <View style={{ justifyContent: 'center', alignItems: 'center' }} >
+                                                            <View style={[styles.cards, { padding: wp(2), height: hp(18) }]} >
+                                                                <Text style={styles.contentText} numberOfLines={3} >{item.address}</Text>
+                                                                <Text style={styles.contentText} numberOfLines={1} >{item.phone}</Text>
+                                                                <Text style={styles.contentText} numberOfLines={1} >{item.city}</Text>
+                                                                <Text style={styles.contentText} numberOfLines={1} >{item.postal_caode}</Text>
+                                                                <Text style={styles.contentText} numberOfLines={1} >{item.country}</Text>
+                                                            </View>
+                                                            <View style={{ marginTop: hp(1) }} >
+                                                                <Pressable activeOpacity={0.5} style={{ backgroundColor: 'red' }} onPress={() => {
+                                                                    console.log('pressed delete', item.city);
+
+                                                                    var formdata = new FormData();
+                                                                    formdata.append("id", item.id);
+
+                                                                    let headers = new Headers();
+                                                                    headers.append("Authorization", "Bearer " + global.token.trim());
+
+                                                                    const requestOptions = {
+                                                                        method: 'POST',
+                                                                        headers: headers,
+                                                                        body: formdata
+                                                                    }
+                                                                    fetch('https://theaaura.com/api/v1/user/shipping/delete', requestOptions)
+                                                                        .then(res => res.json())
+                                                                        .then(response => {
+                                                                            if (response.message === "Shipping information has been deleted") {
+                                                                                // setAddress(response.data);
+                                                                                setEditAddress(false);
+                                                                                Alert.alert('', 'Shipping information has been deleted', [{ text: 'OK', onPress: () => { } }]);
+                                                                                // setEditAddress(false);
+                                                                                getAddress();
+                                                                            } else {
+                                                                                Alert.alert('Please try again later!');
+                                                                            }
+                                                                        }
+                                                                        ).catch(err => { console.log(err); })
+                                                                }} >
+                                                                    <AntDesign name="delete" size={wp(6)} color={Colors.violet} />
+                                                                </Pressable>
+                                                            </View>
+                                                        </View>
+                                                    )
+                                                }}
+                                            />
+                                            <View style={{ height: hp(2) }} />
+                                            <Text style={styles.address} >ADD NEW SHIPPING ADDRESS</Text>
+                                            <View style={styles.line} />
+                                            <View style={{ height: hp(1) }} />
+                                            <Text style={styles.contentText} >Enter Address</Text>
+                                            <TextInput
+                                                placeholder='Enter Address'
+                                                style={styles.textInput}
+                                                onChangeText={(text) => setNewAddress(text)}
+                                            />
+                                            <Text style={styles.contentText} >Enter City</Text>
+                                            <TextInput
+                                                placeholder='Enter City'
+                                                style={styles.textInput}
+                                                onChangeText={(text) => setNewCity(text)}
+                                            />
+                                            <Text style={styles.contentText} >Enter Country</Text>
+                                            <TextInput
+                                                placeholder='Enter Country'
+                                                style={styles.textInput}
+                                                onChangeText={(text) => setNewCountry(text)}
+                                            />
+                                            <Text style={styles.contentText} >Enter Phone</Text>
+                                            <TextInput
+                                                placeholder='Enter Phone'
+                                                maxLength={10}
+                                                style={styles.textInput}
+                                                onChangeText={(text) => setNewPhone(text)}
+                                            />
+                                            <Text style={styles.contentText} >Enter Pincode</Text>
+                                            <TextInput
+                                                placeholder='Enter Pincode'
+                                                maxLength={10}
+                                                style={styles.textInput}
+                                                onChangeText={(text) => setNewPincode(text)}
+                                            />
+                                            <View style={{ height: hp(2) }} />
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
+                                                <Button title='cancel' style={styles.wishButton} buttontext={{ color: Colors.violet, textTransform: 'uppercase', }}
+                                                    onPress={() => {
+                                                        setEditAddress(false)
+                                                        setNewAddress(null)
+                                                        setNewCity(null)
+                                                        setNewCountry(null)
+                                                        setNewPhone(null)
+                                                        setNewPincode(null)
+                                                    }}
+                                                />
+                                                <Button title='save' style={styles.cartButton} buttontext={{ textTransform: 'uppercase', }}
+                                                    onPress={() => {
+                                                        var formdata = new FormData();
+
+                                                        formdata.append("user_id", global.userId);
+                                                        formdata.append("address", newAddress);
+                                                        formdata.append("city", newCity);
+                                                        formdata.append("country", newCountry);
+                                                        formdata.append("phone", newPhone);
+                                                        formdata.append("postal_code", newPincode);
+
+
+                                                        let headers = new Headers();
+                                                        headers.append("Authorization", "Bearer " + global.token.trim());
+
+                                                        const requestOptions = { method: 'POST', headers: headers, body: formdata };
+
+                                                        fetch('https://theaaura.com/api/v1/user/shipping/create', requestOptions).then(res => res.json())
+                                                            .then(response => {
+                                                                if (response.message) {
+                                                                    setAddress(null);
+                                                                    setEditAddress(false);
+                                                                } else {
+                                                                    console.log(response, 'this is res');
+                                                                }
+                                                            }
+                                                            )
+                                                            .catch(err => console.log(err))
+                                                    }}
+                                                />
+                                            </View>
+
+                                        </View>
+                                    </View>
+                                </KeyboardAvoidingView>
+                            </Modal>
+                        </View>
+                    }
+                    <View style={[styles.box, CommonStyle.shadow]} >
+                        <Text style={styles.address} >Orders</Text>
                     </View>
-                }
-                <View style={[styles.box, CommonStyle.shadow]} >
-                    <Text style={styles.address} >Orders</Text>
                 </View>
-            </View>
-            <View style={[styles.box, CommonStyle.shadow, { width: wp(95) }]} >
-                <Text style={styles.address} >Wishlist</Text>
-            </View>
+                <View style={[styles.box, CommonStyle.shadow, { width: wp(95) }]} >
+                    <Text style={styles.address} >Wishlist</Text>
+                </View>
+                <View style={{ height: hp(10) }} />
+            </ScrollView>
         </View>
     )
 }
@@ -255,6 +326,28 @@ const Profile = ({ navigation }) => {
 export default Profile
 
 const styles = StyleSheet.create({
+    contentView: {
+        flexDirection: 'row',
+        width: wp(90),
+        // backgroundColor: 'green',
+        marginVertical: hp(1),
+        justifyContent: 'space-around'
+    },
+    contentLeft: {
+        fontFamily: fonts.PM,
+        color: Colors.black,
+        // backgroundColor: 'yellow',
+        width: wp(40),
+        textTransform: 'uppercase',
+        fontSize: 13,
+    },
+    contentRight: {
+        fontFamily: fonts.PR,
+        color: Colors.black,
+        // backgroundColor: 'orange',
+        fontSize: 13,
+        width: wp(40)
+    },
     profileView: {
         width: wp(100),
         height: wp(50),

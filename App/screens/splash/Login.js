@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, TextInput, Pressable, TouchableOpacity, Alert, Modal, KeyboardAvoidingView, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, Image, TextInput, Pressable, TouchableOpacity, Alert, Modal, KeyboardAvoidingView, ScrollView, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Colors, CommonStyle, fonts, height, hp, wp } from '../../utils/Constant'
 import Button from '../../components/Button';
@@ -33,7 +33,7 @@ const Login = ({ navigation }) => {
     const [reset, setReset] = useState(false);
     const [resetEmail, setResetEmail] = useState('');
 
-
+    const [loader, setLoader] = useState(false);
     const EnterPhone = () => {
         return (
             <View style={[styles.register, CommonStyle.shadow]} >
@@ -144,35 +144,40 @@ const Login = ({ navigation }) => {
                 <TouchableOpacity style={{ justifyContent: 'flex-end', alignItems: 'flex-end' }} onPress={() => setReset(true)} >
                     <Text style={[styles.lastline, { marginTop: hp(1) }]} >Reset Password ?</Text>
                 </TouchableOpacity>
-                <Button title="LOGIN" style={[styles.button, { marginTop: hp(3) }, CommonStyle.shadow3]} onPress={() => {
-                    // navigation.replace('DrawerScreen')
-                    var formdata = new FormData();
+                {loader ? <ActivityIndicator size="large" color={Colors.violet} /> :
+                    <Button title="LOGIN" style={[styles.button, { marginTop: hp(3) }, CommonStyle.shadow3]} onPress={() => {
+                        // navigation.replace('DrawerScreen')
+                        setLoader(true);
+                        var formdata = new FormData();
 
-                    formdata.append("email", loginEmail);
-                    formdata.append("password", loginPassword);
+                        formdata.append("email", loginEmail);
+                        formdata.append("password", loginPassword);
 
-                    const requestOptions = {
-                        method: 'POST',
-                        body: formdata,
-                        redirect: 'follow'
-                    };
+                        const requestOptions = {
+                            method: 'POST',
+                            body: formdata,
+                            redirect: 'follow'
+                        };
 
-                    fetch('https://theaaura.com/api/v1/auth/login', requestOptions)
-                        .then(response => response.json())
-                        .then(result => {
-                            if (result.access_token) {
-                                global.userId = result.user.id;
-                                global.token = result.access_token;
-                                Storage.setItem(AsynchStoragekey.bearer, result);
-                                Storage.setItem(AsynchStoragekey.userId, result.user.id);
-                                navigation.replace('DrawerScreen');
-                            } else {
-                                Alert.alert(result.message, 'Username or password is incorrect');
+                        fetch('https://theaaura.com/api/v1/auth/login', requestOptions)
+                            .then(response => response.json())
+                            .then(result => {
+                                if (result.access_token) {
+                                    global.userId = result.user.id;
+                                    global.token = result.access_token;
+                                    Storage.setItem(AsynchStoragekey.bearer, result);
+                                    Storage.setItem(AsynchStoragekey.userId, result.user.id);
+                                    navigation.replace('DrawerScreen');
+                                    setLoader(false);
+                                } else {
+                                    setLoader(false);
+                                    Alert.alert(result.message, 'Username or password is incorrect');
+                                }
                             }
-                        }
-                        )
-                        .catch(error => console.log('error', error));
-                }} />
+                            )
+                            .catch(error => console.log('error', error));
+                    }} />
+                }
                 <TouchableOpacity activeOpacity={0.6} onPress={() => setVerifyOtp(false)} style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} >
                     <Text style={styles.lastline} >New to Aaura ?<Text style={styles.title} > Register here..</Text> </Text>
                 </TouchableOpacity>

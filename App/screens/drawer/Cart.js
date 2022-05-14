@@ -47,6 +47,26 @@ const Cart = ({ navigation }) => {
 
     // Merchant Key: pwXD0SypcdRAuAPw
 
+    const [data, setData] = useState();
+
+    let headers = new Headers();
+    headers.append("Authorization", "Bearer " + global.token.trim());
+
+    const requestOptions = {
+        method: 'GET',
+        headers: headers,
+    }
+
+    useEffect(() => {
+        fetch('https://theaaura.com', requestOptions).then(res => res.json())
+            .then(response => {
+                console.log(response, 'this is response')
+                setData(response)
+                console.log(data, 'this is res')
+            }
+            ).catch(err => console.log(err))
+    }, [])
+
     const payNow = () => {
 
         let orderId = Math.floor(Math.random() * 100000);
@@ -57,11 +77,21 @@ const Cart = ({ navigation }) => {
 
         console.log(orderId, amount, mid, callbackUrl, tranxToken, 'this is order id')
 
+
+        // let newMid = 'PyFMbI23122449162864';
+        // 1. orderId
+        // 2. merchantId
+        // 3. txnToken
+        // 4. Amount
+        // 5. callbackUrl
+        // 6. isStaging
+        // 7. appInvokeRestricted
+
         const orderDetails = {
-            orderId: "Aaura031",
+            orderId: "Aaura031@#!",
             amount: "100.00",
             mid: "PyFMbI23122449162864",
-            callbackUrl: "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=TESTORDER_01",
+            callbackUrl: "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=Aaura031",
             tranxToken: "WADE0003567887",
             isStaging: true,
             appInvokeRestricted: false,
@@ -79,7 +109,7 @@ const Cart = ({ navigation }) => {
             orderDetails.urlScheme
         )
             .then((result) => {
-                console.log(result, 'this is result')
+                console.log(result, 'this is result');
             })
             .catch((err) => {
                 handleError(err);
@@ -107,7 +137,7 @@ const Cart = ({ navigation }) => {
                         ListFooterComponent={() => {
                             return (
                                 <View style={{ height: hp(10) }} >
-                                    <Button title={'checkout'} onPress={() => payNow()} />
+                                    {/* <Button title={'checkout'} onPress={() => payNow()} /> */}
                                 </View>
                             )
                         }}
@@ -170,7 +200,7 @@ const Cart = ({ navigation }) => {
             </View>
             {renderComponent()}
             <View style={{ flex: 1 }} />
-            <Button title="PLACE ORDER" style={{ height: hp(6), marginHorizontal: wp(3), marginBottom: hp(5) }} onPress={() => { }} />
+            <Button title="PLACE ORDER" style={{ height: hp(6), marginHorizontal: wp(3), marginBottom: hp(5) }} onPress={() => payNow()} />
         </View>
     )
 }

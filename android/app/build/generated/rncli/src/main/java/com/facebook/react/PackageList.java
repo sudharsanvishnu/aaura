@@ -29,8 +29,6 @@ import com.faizal.OtpVerify.RNOtpVerifyPackage;
 import com.reactnativepagerview.PagerViewPackage;
 // react-native-push-notification
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
-// react-native-razorpay
-import com.razorpay.rn.RazorpayPackage;
 // react-native-reanimated
 import com.swmansion.reanimated.ReanimatedPackage;
 // react-native-safe-area-context
@@ -93,7 +91,6 @@ public class PackageList {
       new RNOtpVerifyPackage(),
       new PagerViewPackage(),
       new ReactNativePushNotificationPackage(),
-      new RazorpayPackage(),
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),

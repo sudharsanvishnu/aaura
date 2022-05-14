@@ -70,23 +70,6 @@
                         "endColumns": "110,107,112,87,105,114,79,76,90,92,94,93,99,92,94,93,90,90,83,108,109,100,109,117,107,162,101,84",
                         "endOffsets": "211,319,432,520,626,741,821,898,989,1082,1177,1271,1371,1464,1559,1653,1744,1835,1919,2028,2138,2239,2349,2467,2575,2738,2840,5287"
                     }
-                },
-                {
-                    "source": "/Users/sudharsanpalanisamy/.gradle/caches/transforms-3/749d2dd261200d246536c44201fb2b16/transformed/jetified-play-services-wallet-18.1.3/res/values-tl/values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "202",
-                        "endColumns": "78",
-                        "endOffsets": "280"
-                    },
-                    "to": {
-                        "startLines": "49",
-                        "startColumns": "4",
-                        "startOffsets": "5393",
-                        "endColumns": "82",
-                        "endOffsets": "5471"
-                    }
                 }
             ]
         }
