@@ -23,6 +23,8 @@ import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 import com.arnpaytmallinone.AllInOneSDKManagerPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+// react-native-image-picker
+import com.imagepicker.ImagePickerPackage;
 // react-native-otp-verify
 import com.faizal.OtpVerify.RNOtpVerifyPackage;
 // react-native-pager-view
@@ -88,6 +90,7 @@ public class PackageList {
       new ReactNativeFirebaseAppPackage(),
       new AllInOneSDKManagerPackage(),
       new RNGestureHandlerPackage(),
+      new ImagePickerPackage(),
       new RNOtpVerifyPackage(),
       new PagerViewPackage(),
       new ReactNativePushNotificationPackage(),

@@ -1,4 +1,4 @@
-import { TextInput, StyleSheet, Text, View, FlatList } from 'react-native'
+import { TextInput, StyleSheet, Text, View, FlatList, ActivityIndicator, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import { Colors, CommonStyle, fonts, hp, wp } from '../../utils/Constant'
@@ -9,7 +9,6 @@ import CartItem from '../../components/CartItem';
 import AllInOneSDKManager from 'paytm_allinone_react-native';
 
 const Cart = ({ navigation }) => {
-
     const [tab, setTab] = useState(0);
 
     const [editAdd, setEditAdd] = useState(false);
@@ -21,27 +20,9 @@ const Cart = ({ navigation }) => {
     const [country, setCountry] = useState();
     const [pincode, setPincode] = useState();
 
-
+    const [loader, setLoader] = useState(false);
     // for cart items
     const [cartItems, setCartItems] = useState();
-
-    useEffect(() => {
-        let headers = new Headers();
-        headers.append("Authorization", "Bearer " + global.token.trim());
-
-        const requestOptions = {
-            method: 'GET',
-            headers: headers,
-        };
-
-        fetch('https://theaaura.com/api/v1/cartlist', requestOptions)
-            .then(res => res.json())
-            .then(response => {
-                setCartItems(response.data)
-                console.log(response.data, 'this is cart items')
-            }
-            ).catch(err => console.log(err))
-    }, [])
 
     // Merchant id : VBieSA30751492066952
 
@@ -58,63 +39,84 @@ const Cart = ({ navigation }) => {
     }
 
     useEffect(() => {
-        fetch('https://theaaura.com', requestOptions).then(res => res.json())
-            .then(response => {
-                console.log(response, 'this is response')
-                setData(response)
-                console.log(data, 'this is res')
-            }
-            ).catch(err => console.log(err))
+        fetch('https://theaaura.com/api/v1/cartlist', requestOptions).then(response => response.json()).then(response => {
+            setCartItems(response.data);
+            console.log(response.data, 'this is cart item');
+        }).catch(err => console.log(err))
     }, [])
 
-    const payNow = () => {
+    let [isOrderIdUpdated, setOrderIdUpdated] = useState(false);
 
-        let orderId = Math.floor(Math.random() * 100000);
-        let amount = '250';
-        mid = 'VBieSA30751492066952';
-        callbackUrl = 'https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=' + orderId;
-        let tranxToken = 'eJxVUtkPwjAUhf8q';
+    useEffect(() => {
+        generateOrderId();
+    }, [])
 
-        console.log(orderId, amount, mid, callbackUrl, tranxToken, 'this is order id')
+    // let [mid, setMid] = useState('PyFMbI23122449162864');
+    let [mid, setMid] = useState('VBieSA30751492066952');
+    let [orderId, setOrderId] = useState('ORDER1234');
+    let [amount, setAmount] = useState('1.00');
+    let [urlScheme, setURLScheme] = useState('');
+    let [tranxToken, setTranxToken] = useState('');
+    let [showToast, setShowToast] = useState('');
+    let [isStaging, setIsStaging] = useState(false);
+    let [appInvokeRestricted, setIsAppInvokeRestricted] = useState(true);
+    let [result, setResult] = useState('');
+    //let [callbackUrl,setcallbackUrl] = useState('https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=');
+    let [callbackUrl, setcallbackUrl] = useState('https://securegw.paytm.in/theia/paytmCallback?ORDER_ID=');
 
+    const generateOrderId = () => {
+        const r = Math.random() * new Date().getMilliseconds();
+        setOrderId(
+            'ORDER' +
+            (1 + Math.floor(r % 2000) + 10000) +
+            'b' +
+            (Math.floor(r % 100000) + 10000),
+        );
+    };
 
-        // let newMid = 'PyFMbI23122449162864';
-        // 1. orderId
-        // 2. merchantId
-        // 3. txnToken
-        // 4. Amount
-        // 5. callbackUrl
-        // 6. isStaging
-        // 7. appInvokeRestricted
+    const startRawTransaction = async () => {
 
-        const orderDetails = {
-            orderId: "Aaura031@#!",
-            amount: "100.00",
-            mid: "PyFMbI23122449162864",
-            callbackUrl: "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=Aaura031",
-            tranxToken: "WADE0003567887",
-            isStaging: true,
-            appInvokeRestricted: false,
-            urlScheme: 'paytmMIDVBieSA30751492066952',
-        };
+        console.log('pressed place order');
+        fetch('https://theaaura.com/api/v1/paytmtoken/' + orderId + '/' + amount, requestOptions)
+            .then(res => res.json())
+            .then(response => {
+                console.log(response, 'tranx token res');
+                setTranxToken(response.head.signature);
+                setcallbackUrl(callbackUrl + orderId);
 
-        AllInOneSDKManager.startTransaction(
-            orderDetails.orderId,
-            orderDetails.mid,
-            orderDetails.tranxToken,
-            orderDetails.amount,
-            orderDetails.callbackUrl,
-            orderDetails.isStaging,
-            orderDetails.appInvokeRestricted,
-            orderDetails.urlScheme
-        )
-            .then((result) => {
-                console.log(result, 'this is result');
+                AllInOneSDKManager.startTransaction(
+                    orderId,
+                    mid,
+                    response.body.txnToken,
+                    amount,
+                    // 'https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID='+orderId,
+                    'https://securegw.paytm.in/theia/paytmCallback?ORDER_ID=' + orderId,
+                    isStaging,
+                    appInvokeRestricted,
+                    urlScheme,
+                )
+                    .then((result) => {
+                        console.log("result", result);
+                        setShowToast(JSON.stringify(result));
+                        setOrderIdUpdated(false);
+                        setLoader(false);
+                        Alert.alert('Order placed successfully');
+                    })
+                    .catch((err) => {
+                        setResult(err);
+                        setLoader(false);
+                        setShowToast("Error: " + err);
+                        setOrderIdUpdated(false);
+                    });
+            }
+            ).catch(err => {
+                setLoader(false);
+                console.log(err)
             })
-            .catch((err) => {
-                handleError(err);
-            });
+    }
 
+    const removeItem = (item) => {
+        console.log('item removed')
     }
 
 
@@ -130,7 +132,7 @@ const Cart = ({ navigation }) => {
                             return (
                                 <View>
                                     {/* <Card item={item} /> */}
-                                    <CartItem item={item} />
+                                    <CartItem item={item} onPressDelete={removeItem} />
                                 </View>
                             )
                         }}
@@ -183,7 +185,6 @@ const Cart = ({ navigation }) => {
         }
     }
 
-
     return (
         <View style={CommonStyle.container2} >
             <Header navigation={navigation} />
@@ -200,7 +201,13 @@ const Cart = ({ navigation }) => {
             </View>
             {renderComponent()}
             <View style={{ flex: 1 }} />
-            <Button title="PLACE ORDER" style={{ height: hp(6), marginHorizontal: wp(3), marginBottom: hp(5) }} onPress={() => payNow()} />
+            {loader ? <ActivityIndicator size="large" color={Colors.violet} /> :
+                <Button title="PLACE ORDER" style={{ height: hp(6), marginHorizontal: wp(3), marginBottom: hp(5) }} onPress={() => {
+                    setLoader(true);
+                    startRawTransaction()
+                }
+                } />
+            }
         </View>
     )
 }

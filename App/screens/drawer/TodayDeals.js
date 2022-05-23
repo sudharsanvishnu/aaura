@@ -6,26 +6,13 @@ import { CommonStyle } from '../../utils/Constant'
 
 const TodayDeals = ({ navigation }) => {
 
-    const car = [
-        { imgUrl: require('../../assets/image/icon.jpg'), title: ' shopping shopping  ', price: 'Rs.99999', actualPrice: 'Rs 99999' },
-        { imgUrl: require('../../assets/image/icon.jpg'), title: ' shopping shopping ', price: 'Rs.99999', actualPrice: 'Rs 99999' },
-        { imgUrl: require('../../assets/image/icon.jpg'), title: ' shopping shopping ', price: 'Rs.99999', actualPrice: 'Rs 99999' },
-        { imgUrl: require('../../assets/image/icon.jpg'), title: ' shopping shopping ', price: 'Rs.99999', actualPrice: 'Rs 99999' },
-        { imgUrl: require('../../assets/image/icon.jpg'), title: ' shopping shopping ', price: 'Rs.99999', actualPrice: 'Rs 99999' },
-        { imgUrl: require('../../assets/image/icon.jpg'), title: ' shopping shopping ', price: 'Rs.99999', actualPrice: 'Rs 99999' },
-    ]
-
     const [today, setToday] = useState(null);
 
-
     useEffect(() => {
-        const deal = () => {
-            fetch('https://theaaura.com/api/v1/products/todays-deal').then(response => response.json()).then(response => {
-                setToday(response.data)
-            }).catch(err => console.log(err))
-        }
-        return deal()
-    }, [today, setToday])
+        fetch('https://theaaura.com/api/v1/products/todays-deal').then(response => response.json()).then(response => {
+            setToday(response.data)
+        }).catch(err => console.log(err))
+    }, [])
 
     return (
         <View style={CommonStyle.container2} >

@@ -16,6 +16,24 @@ const Home = ({ navigation }) => {
     const [index, setIndex] = useState(0);
 
 
+    // for search
+    const [searchText, setSearchText] = useState('');
+    const [loaderSearch, setLoaderSearch] = useState(false);
+    const search = () => {
+        setLoaderSearch(true);
+        let headers = new Headers();
+        headers.append("Authorization", "Bearer " + global.token.trim());
+        const requestOptions = {
+            method: 'GET',
+            headers: headers
+        }
+        fetch('https://theaaura.com/api/v1/products/search?key=' + searchText, requestOptions).then(res => res.json()).then(response => {
+            console.log(response.data, 'this is search response');
+            setLoaderSearch(false);
+            navigation.navigate('Search', { data: response.data, text: searchText });
+        }
+        ).catch(err => console.log(err))
+    }
 
     useEffect(() => {
         CHECK_USER();
@@ -56,73 +74,53 @@ const Home = ({ navigation }) => {
 
     // home slider 
     useEffect(() => {
-        const sliderData = () => {
-            fetch('https://theaaura.com/api/v1/sliders').then(res => res.json()).then(response => {
-                setSlider(response.data)
-            }).catch(err => { console.log(err) })
-        }
-        sliderData()
-    }, [slider, setSlider])
+        fetch('https://theaaura.com/api/v1/sliders').then(res => res.json()).then(response => {
+            setSlider(response.data);
+        }).catch(err => { console.log(err) })
+    }, [])
     // banner
     useEffect(() => {
-        const bannerData = () => {
-            fetch('https://theaaura.com/api/v1/banners').then(response => response.json()).then(response => {
-                setBanner(response.data)
-            }).catch(err => console.log(err))
-        }
-
-        return bannerData()
-    }, [banner, setBanner,])
+        fetch('https://theaaura.com/api/v1/banners').then(response => response.json()).then(response => {
+            setBanner(response.data);
+        }).catch(err => console.log(err))
+    }, [])
     // category
     useEffect(() => {
-        const category = () => {
-            fetch('https://theaaura.com/api/v1/home-categories').then(response => response.json()).then(response => {
-                setCategory(response.data)
-            }).catch(err => console.log(err))
-        }
-        return category()
-    }, [category, setCategory])
+        fetch('https://theaaura.com/api/v1/home-categories').then(response => response.json()).then(response => {
+            setCategory(response.data);
+        }).catch(err => console.log(err))
+
+    }, [])
 
     // deals
     useEffect(() => {
-        const deal = () => {
-            fetch('https://theaaura.com/api/v1/products/todays-deal').then(response => response.json()).then(response => {
-                setToday(response.data)
-            }).catch(err => console.log(err))
-        }
-        return deal()
-    }, [today, setToday])
+        fetch('https://theaaura.com/api/v1/products/todays-deal').then(response => response.json()).then(response => {
+            setToday(response.data);
+        }).catch(err => console.log(err))
+    }, [])
 
     // featured
     useEffect(() => {
-        const featured1 = () => {
-            fetch('https://theaaura.com/api/v1/products/featured').then(response => response.json()).then(response => {
-                setFeatured(response.data)
-            }).catch(err => console.log(err))
-        }
-        return featured1()
-    }, [featured, setFeatured])
+        fetch('https://theaaura.com/api/v1/products/featured').then(response => response.json()).then(response => {
+            setFeatured(response.data);
+            console.log(response.data);
+        }).catch(err => console.log(err))
+    }, [])
 
     // best selling
     useEffect(() => {
-        const bestSelling1 = () => {
-            fetch('https://theaaura.com/api/v1/products/best-seller').then(response => response.json()).then(response => {
-                setBestSelling(response.data)
-            }).catch(err => console.log(err))
-        }
-        return bestSelling1()
-    }, [bestSelling, setBestSelling])
+        fetch('https://theaaura.com/api/v1/products/best-seller').then(response => response.json()).then(response => {
+            setBestSelling(response.data);
+        }).catch(err => console.log(err))
+    }, [])
 
     useEffect(() => {
-        const fashion = () => {
-            fetch('https://theaaura.com/api/v1/category/products').then(response => response.json()).then(response => {
-                setWomens(response.data[1].products)
-                setAcc(response.data[11].products)
-                setSnack(response.data[15].products)
-            }).catch(err => console.log(err))
-        }
-        return fashion()
-    }, [womens, setWomens, setAcc, setSnack, snack, acc])
+        fetch('https://theaaura.com/api/v1/category/products').then(response => response.json()).then(response => {
+            setWomens(response.data[1].products);
+            setAcc(response.data[11].products);
+            setSnack(response.data[15].products);
+        }).catch(err => console.log(err))
+    }, [])
 
 
     const CarouselCardItem = ({ item, index }) => {
@@ -148,18 +146,24 @@ const Home = ({ navigation }) => {
         <View style={CommonStyle.container2} >
             <Header navigation={navigation} />
             <ScrollView>
-                <View style={styles.searchView} >
-                    <View style={styles.searchBar} >
-                        <EvilIcons name="search" size={wp(5)} color={Colors.violet} style={styles.searchIcon} />
-                        <TextInput
-                            placeholder='Search'
-                            placeholderTextColor={Colors.violet}
-                            style={styles.search}
-                        />
-                        <EvilIcons name="camera" size={wp(6)} color={Colors.violet} style={styles.cameraIcon} />
-                        <Feather name="mic" size={wp(3.9)} color={Colors.violet} style={styles.micIcon} />
+                {loaderSearch ? <ActivityIndicator size='small' color={Colors.violet} /> :
+                    <View style={styles.searchView} >
+                        <View style={styles.searchBar} >
+                            <TouchableOpacity onPress={search} >
+                                <EvilIcons name="search" size={wp(5)} color={Colors.violet} style={styles.searchIcon} />
+                            </TouchableOpacity>
+                            <TextInput
+                                placeholder='Search'
+                                placeholderTextColor={Colors.violet}
+                                style={styles.search}
+                                onChangeText={(text) => setSearchText(text)}
+                                onSubmitEditing={() => search()}
+                            />
+                            <EvilIcons name="camera" size={wp(6)} color={Colors.violet} style={styles.cameraIcon} />
+                            <Feather name="mic" size={wp(3.9)} color={Colors.violet} style={styles.micIcon} />
+                        </View>
                     </View>
-                </View>
+                }
                 {banner === null ? <ActivityIndicator size="large" color={Colors.violet} /> :
                     <View style={CommonStyle.shadow3} >
                         <Carousel
@@ -172,7 +176,7 @@ const Home = ({ navigation }) => {
                             sliderWidth={wp(100)}
                             itemWidth={wp(100)}
                             renderItem={CarouselCardItem}
-                            layout={'stack'}
+                            layout={'default'}
                             onSnapToItem={(index) => setIndex(index)}
                         />
                     </View>
@@ -183,6 +187,7 @@ const Home = ({ navigation }) => {
                     <FlatList
                         keyExtractor={(item, index) => index.toString()}
                         data={category}
+                        // horizontal
                         renderItem={({ item, index }) => {
                             return (
                                 <View style={styles.circleView} >
@@ -196,19 +201,19 @@ const Home = ({ navigation }) => {
                         numColumns={3}
                     />
                 }
-                <Separator title="today's deal" onPress={() => setTodayView(todayView + 4)} />
+                <Separator title="today's deal" onPress={() => navigation.navigate('TodayDeals')} />
                 {today === null ? <ActivityIndicator size="large" color={Colors.violet} /> :
                     <FlatList
                         keyExtractor={(item, index) => index.toString()}
-                        data={today?.slice(0, todayView)}
+                        data={today}
+                        horizontal
                         renderItem={({ item, index }) => {
                             return (
-                                <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate('Product detail', item)} >
-                                    <Card item={item} />
-                                </TouchableOpacity>
+                                <>
+                                    <Card item={item} navigation={navigation} />
+                                </>
                             )
                         }}
-                        numColumns={2}
                     />
                 }
                 <Carousel
@@ -221,87 +226,87 @@ const Home = ({ navigation }) => {
                     sliderWidth={wp(100)}
                     itemWidth={wp(100)}
                     renderItem={CarouselCardItem}
-                    layout={'tinder'}
+                    layout={'default'}
                     onSnapToItem={(index) => setIndex(index)}
                 />
-                <Separator title='featured products' onPress={() => setFeaturedView(featuredView + 4)} />
+                <Separator title='featured products' onPress={() => navigation.navigate('SeeAll', featured)} />
                 {featured === null ? <ActivityIndicator size="large" color={Colors.violet} /> :
                     <FlatList
                         keyExtractor={(item, index) => index.toString()}
-                        data={featured?.slice(0, featuredView)}
+                        data={featured}
+                        horizontal
                         renderItem={({ item, index }) => {
                             return (
-                                <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate('Product detail', item)} >
-                                    <Card item={item} />
-                                </TouchableOpacity>
+                                // <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate('Product detail', item)} >
+                                <>
+                                    <Card item={item} navigation={navigation} />
+                                </>
+                                // </TouchableOpacity>
                             )
                         }}
-                        numColumns={2}
                     />
                 }
-                <Separator title='best selling' onPress={() => setBestSellingView(bestSellingView + 4)} />
+                <Separator title='best selling' onPress={() => navigation.navigate('SeeAll', bestSelling)} />
                 {bestSelling === null ? <ActivityIndicator size="large" color={Colors.violet} /> :
-
                     <FlatList
                         keyExtractor={(item, index) => index.toString()}
-                        data={bestSelling?.slice(0, bestSellingView)}
+                        data={bestSelling}
+                        horizontal
                         renderItem={({ item, index }) => {
                             return (
-                                <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate('Product detail', item)} >
-                                    <Card item={item} />
-                                </TouchableOpacity>
+                                <>
+                                    <Card item={item} navigation={navigation} />
+                                </>
                             )
                         }}
-                        numColumns={2}
-
                     />
                 }
-                <Separator title="women's fashion" onPress={() => setWomensView(womensView + 4)} />
+                <Separator title="women's fashion" onPress={() => navigation.navigate('SeeAll', womens)} />
                 {womens === null ? <ActivityIndicator size="large" color={Colors.violet} /> :
                     <FlatList
                         keyExtractor={(item, index) => index.toString()}
-                        data={womens?.slice(0, womensView)}
+                        data={womens}
+                        horizontal
                         renderItem={({ item, index }) => {
                             return (
-                                <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate('Product detail', item)} >
-                                    <Card item={item} />
-                                </TouchableOpacity>
+                                <>
+                                    <Card item={item} navigation={navigation} />
+                                </>
                             )
                         }}
-                        numColumns={2}
                     />
                 }
-                <Separator title='accessories' onPress={() => setAccView(accView + 4)} />
+                <Separator title='accessories' onPress={() => navigation.navigate('SeeAll', acc)} />
                 {acc === null ? <ActivityIndicator size="large" color={Colors.violet} /> :
                     <FlatList
                         keyExtractor={(item, index) => index.toString()}
-                        data={acc?.slice(0, accView)}
+                        data={acc}
+                        horizontal
                         renderItem={({ item, index }) => {
                             return (
-                                <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate('Product detail', item)} >
-                                    <Card item={item} />
-                                </TouchableOpacity>
+                                <>
+                                    <Card item={item} navigation={navigation} />
+                                </>
                             )
                         }}
-                        numColumns={2}
                     />
                 }
-                <Separator title='snacks' onPress={() => setSnackView(snackView + 4)} />
+                <Separator title='snacks' onPress={() => navigation.navigate('SeeAll', snack)} />
                 {snack === null ? <ActivityIndicator size="large" color={Colors.violet} /> :
                     <FlatList
                         keyExtractor={(item, index) => index.toString()}
-                        data={snack?.slice(0, snackView)}
+                        data={snack}
+                        horizontal
                         renderItem={({ item, index }) => {
                             return (
-                                <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate('Product detail', item)} >
-                                    <Card item={item} />
-                                </TouchableOpacity>
+                                <>
+                                    <Card item={item} navigation={navigation} />
+                                </>
                             )
                         }}
-                        numColumns={2}
                     />
                 }
-                <View style={{ height: hp(40) }} />
+                <View style={{ paddingBottom: hp(4) }} />
             </ScrollView>
         </View>
     )
@@ -328,14 +333,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     imgContainer: {
-        width: wp(93),
+        width: wp(100),
         height: hp(30),
         marginBottom: hp(3)
     },
     img: {
-        width: wp(93),
+        width: wp(100),
         height: hp(30),
-        margin: wp(3),
+        // margin: wp(3),
         borderRadius: wp(2),
     },
     separator: {

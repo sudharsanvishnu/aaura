@@ -16,7 +16,7 @@ const Privacy = ({ navigation }) => {
     }, [])
 
 
-    const HtmlSource = { html: priData[0]?.content };
+    // const HtmlSource = { html: priData[0]?.content };
 
     return (
         <View style={styles.container} >
@@ -27,7 +27,7 @@ const Privacy = ({ navigation }) => {
                         // <Text>{priData?.content}</Text>
                         <RenderHTML
                             style={styles.content}
-                            source={HtmlSource}
+                            source={{ html: priData[0]?.content }}
                         />
                     }
                 </View>

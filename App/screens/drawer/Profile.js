@@ -1,18 +1,62 @@
-import { StyleSheet, Text, View, Image, ActivityIndicator, Modal, TextInput, FlatList, KeyboardAvoidingView, Pressable, Alert, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Image, ActivityIndicator, TouchableOpacity, Modal, TextInput, FlatList, KeyboardAvoidingView, Pressable, Alert, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Colors, CommonStyle, fonts, hp, wp } from '../../utils/Constant'
 import Header from '../../components/Header'
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Button from '../../components/Button';
+import { launchImageLibrary } from 'react-native-image-picker';
+
 
 const Profile = ({ navigation }) => {
 
     // for rendering address
     const [address, setAddress] = useState(null);
+    const [deleteAdd, setDeleteAdd] = useState(false);
 
     // https://theaaura.com/api/v1/user/info/91
 
+    // for profile image
+    const [coverPhoto, setCoverPhoto] = useState(null);
+    const [profilePhoto, setProfilePhoto] = useState(null);
+    const imageGalleryLaunch = () => {
+        launchImageLibrary({ noData: true, mediaType: 'photo', includeBase64: true }, (response) => {
+            if (response.assets) {
+                setCoverPhoto(response.assets[0].uri);
+                let chosenPhoto = response.assets[0];
+                // setProfileBase64(response.assets[0].base64);
+                let newFile = {
+                    uri: Platform.OS === "android" ? chosenPhoto.uri : chosenPhoto.uri.replace("file://", ""),
+                    type: chosenPhoto.type,
+                    name: chosenPhoto.fileName,
+                };
+                let formdata = new FormData();
+                formdata.append("file", newFile);
+                // console.log(newFile, 'image type')
+
+                var myHeaders = new Headers();
+                myHeaders.append("Authorization", "Bearer " + global.token.trim());
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: formdata,
+                    redirect: 'follow'
+                };
+
+                fetch('https://theaaura.com/api/v1/user/avatar/update', requestOptions)
+                    .then(response => response.json())
+                    .then(result => {
+                        console.log(result, 'this is result');
+                        // console.log(result.id)
+                    }
+                    )
+                    .catch(error => console.log('error', error));
+            } else if (response.didCancel) {
+                setCoverPhoto(null)
+            }
+        }
+        )
+    }
 
     const [user, setUser] = useState(null);
     useEffect(() => {
@@ -22,20 +66,21 @@ const Profile = ({ navigation }) => {
         const requestOptions = { method: 'GET', headers }
 
         fetch('https://theaaura.com/api/v1/user/info/', requestOptions).then(response => response.json()).then(response => {
-            console.log(response.data, 'this is user profile');
+            // console.log(response.data, 'this is user profile');
             setUser(response.data)
-        })
+            console.log(response.data.shipping_address, 'user info');
+        }).catch(err => console.log(err))
 
     }, [user])
 
     const userData = [
         { label: 'name', value: user?.name },
         { label: 'email', value: user?.email },
-        // { label: 'phone', value: user[0]?.phone },
-        //     { label: 'address', value: user[0]?.address },
-        //     { label: 'city', value: user[0]?.city },
-        //     { label: 'country', value: user[0]?.country },
-        // { label: 'postal code', value: user[0]?.postal_code },
+        { label: 'phone', value: user?.shipping_address?.phone },
+        { label: 'address', value: user?.shipping_address?.address },
+        { label: 'city', value: user?.shipping_address?.city },
+        { label: 'country', value: user?.shipping_address?.country },
+        { label: 'postal code', value: user?.shipping_address?.postal_code },
     ]
 
     useEffect(() => {
@@ -49,9 +94,7 @@ const Profile = ({ navigation }) => {
         const requestOptions = { method: 'GET', headers: headers, redirect: 'follow' };
 
         fetch('https://theaaura.com/api/v1/user/shipping/address', requestOptions).then(response => response.json()).then(response => {
-            // console.log(response.data, 'response from api')
             setAddress(response.data)
-            // console.log(address, 'thsi is get add')
         }
         ).catch(err => console.log(err))
     }
@@ -67,6 +110,8 @@ const Profile = ({ navigation }) => {
     const [newPhone, setNewPhone] = useState(null);
     const [newPincode, setNewPincode] = useState(null);
 
+    const [loader, setLoader] = useState(false);
+
     return (
         <View style={CommonStyle.container2}>
             <Header navigation={navigation} />
@@ -74,7 +119,16 @@ const Profile = ({ navigation }) => {
                 <View style={styles.profileView} >
                     <View style={styles.proPic} >
                         <View style={[styles.circleView2, CommonStyle.shadow]} >
-                            <Image source={require('../../assets/image/user.png')} resizeMode='contain' style={styles.circleView} />
+                            <Pressable onPress={() => {
+                                console.log('pressed profile icon');
+                                imageGalleryLaunch();
+                            }
+
+                            } >
+                                <Image source={
+                                    coverPhoto === null ? require('../../assets/image/user.png') : { uri: coverPhoto }
+                                } resizeMode='cover' style={styles.circleView} />
+                            </Pressable>
                         </View>
                         <Text style={styles.name} >Profile</Text>
                     </View>
@@ -188,37 +242,41 @@ const Profile = ({ navigation }) => {
                                                                 <Text style={styles.contentText} numberOfLines={1} >{item.country}</Text>
                                                             </View>
                                                             <View style={{ marginTop: hp(1) }} >
-                                                                <Pressable activeOpacity={0.5} style={{ backgroundColor: 'red' }} onPress={() => {
-                                                                    console.log('pressed delete', item.city);
+                                                                {deleteAdd ? <ActivityIndicator size="small" color={Colors.violet} /> :
+                                                                    <TouchableOpacity onPress={() => {
+                                                                        console.log('pressed delete', item.city);
+                                                                        setDeleteAdd(true);
+                                                                        var formdata = new FormData();
+                                                                        formdata.append("id", item.id);
 
-                                                                    var formdata = new FormData();
-                                                                    formdata.append("id", item.id);
+                                                                        let headers = new Headers();
+                                                                        headers.append("Authorization", "Bearer " + global.token.trim());
 
-                                                                    let headers = new Headers();
-                                                                    headers.append("Authorization", "Bearer " + global.token.trim());
-
-                                                                    const requestOptions = {
-                                                                        method: 'POST',
-                                                                        headers: headers,
-                                                                        body: formdata
-                                                                    }
-                                                                    fetch('https://theaaura.com/api/v1/user/shipping/delete', requestOptions)
-                                                                        .then(res => res.json())
-                                                                        .then(response => {
-                                                                            if (response.message === "Shipping information has been deleted") {
-                                                                                // setAddress(response.data);
-                                                                                setEditAddress(false);
-                                                                                Alert.alert('', 'Shipping information has been deleted', [{ text: 'OK', onPress: () => { } }]);
-                                                                                // setEditAddress(false);
-                                                                                getAddress();
-                                                                            } else {
-                                                                                Alert.alert('Please try again later!');
-                                                                            }
+                                                                        const requestOptions = {
+                                                                            method: 'POST',
+                                                                            headers: headers,
+                                                                            body: formdata
                                                                         }
-                                                                        ).catch(err => { console.log(err); })
-                                                                }} >
-                                                                    <AntDesign name="delete" size={wp(6)} color={Colors.violet} />
-                                                                </Pressable>
+                                                                        fetch('https://theaaura.com/api/v1/user/shipping/delete', requestOptions)
+                                                                            .then(res => res.json())
+                                                                            .then(response => {
+                                                                                if (response.message === "Shipping information has been deleted") {
+                                                                                    // setAddress(response.data);
+                                                                                    // setEditAddress(false);
+                                                                                    setDeleteAdd(false);
+                                                                                    Alert.alert('', 'Shipping information has been deleted', [{ text: 'OK', onPress: () => { } }]);
+                                                                                    // setEditAddress(false);
+                                                                                    getAddress();
+                                                                                } else {
+                                                                                    setDeleteAdd(false);
+                                                                                    Alert.alert('Please try again later!');
+                                                                                }
+                                                                            }
+                                                                            ).catch(err => { console.log(err); })
+                                                                    }} >
+                                                                        <AntDesign name="delete" size={wp(6)} color={Colors.violet} />
+                                                                    </TouchableOpacity>
+                                                                }
                                                             </View>
                                                         </View>
                                                     )
@@ -274,6 +332,8 @@ const Profile = ({ navigation }) => {
                                                 />
                                                 <Button title='save' style={styles.cartButton} buttontext={{ textTransform: 'uppercase', }}
                                                     onPress={() => {
+                                                        console.log('pressed save')
+                                                        setLoader(true);
                                                         var formdata = new FormData();
 
                                                         formdata.append("user_id", global.userId);

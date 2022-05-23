@@ -1,4 +1,4 @@
-import { StyleSheet, Image, Text, View } from 'react-native'
+import { StyleSheet, Image, Text, View, Pressable } from 'react-native'
 import React from 'react'
 import { Colors, fonts, hp, wp } from '../utils/Constant'
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -9,7 +9,7 @@ const Header = ({ navigation, backArrow, title }) => {
         <View style={styles.container} >
             {backArrow ?
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} >
-                    <EvilIcons name='chevron-left' size={wp(10)} color={Colors.white} style={styles.backArrow} onPress={() => navigation.replace('DrawerScreen')} />
+                    <EvilIcons name='chevron-left' size={wp(10)} color={Colors.white} style={styles.backArrow} onPress={() => navigation.goBack('')} />
                     <Text style={{ color: Colors.white, fontFamily: fonts.PSB, fontSize: 18, marginTop: hp(0.5) }} >{title}</Text>
                 </View>
                 : < >
@@ -19,8 +19,12 @@ const Header = ({ navigation, backArrow, title }) => {
             }
             <View style={styles.container2} >
                 <EvilIcons name='bell' size={wp(7)} color={Colors.white} style={styles.bell} />
-                <EvilIcons name='heart' size={wp(7)} color={Colors.white} style={styles.heart} />
-                <EvilIcons name='cart' size={wp(7)} color={Colors.white} style={styles.cart} />
+                <Pressable onPress={() => navigation.navigate('Wishlist')}>
+                    <EvilIcons name='heart' size={wp(7)} color={Colors.white} style={styles.heart} />
+                </Pressable>
+                <Pressable onPress={() => navigation.navigate('Cart')}>
+                    <EvilIcons name='cart' size={wp(7)} color={Colors.white} style={styles.cart} />
+                </Pressable>
             </View>
         </View>
     )

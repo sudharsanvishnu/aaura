@@ -5,6 +5,9 @@ import { Colors, CommonStyle, fonts, hp, wp } from '../../utils/Constant';
 import Button from '../../components/Button';
 import RenderHTML from 'react-native-render-html';
 import Card from '../../components/Card';
+
+
+
 const ProductDetail = ({ route, navigation }) => {
 
     const [item, setItem] = useState(route.params);
@@ -13,47 +16,117 @@ const ProductDetail = ({ route, navigation }) => {
     const HtmlSource = { html: item.description };
 
     const [related, setRelated] = useState(null);
-
+    const [loader, setLoader] = useState(false);
     // for product details
     const [productDetail, setProductDetail] = useState(null);
-    const [variant, setVariant] = useState(null);
+    const [variant, setVariant] = useState([]);
     const [qty, setQty] = useState(1);
     const [itemPrice, setItemPrice] = useState(null);
+    // for storing the size
+    const [attributes, setAttributes] = useState(null);
+    const [priceLoader, setPriceLoader] = useState(false);
 
+    console.log(item?.links?.details, 'this is detail')
     useEffect(() => {
-        fetch(String(item?.links?.details))
+        fetch(item?.links?.details)
             .then(res => res.json())
             .then(res => {
                 setProductDetail(res.data);
-                setItemPrice(productDetail.discounted_price.substring(3));
-                console.log(res.data, 'pro deta')
             })
             .catch(err => {
-                console.log(err);
+                console.log(err, 'errpr');
             })
-    }, [item, productDetail])
-
-
-    useEffect(() => {
-        const productData = () => {
-            fetch(String(item.links.related))
-                .then(res => res.json())
-                .then(res => {
-                    setRelated(res.data)
-                })
-                .catch(err => console.log(err))
-        }
-        productData()
     }, [])
 
-    // for storing the size
-    const [attributes, setAttributes] = useState([]);
+    useEffect(() => {
+        priceVariant();
+    }, [attributes])
+
+    useEffect(() => {
+        priceVariant();
+
+        // setPriceLoader(true);
+
+        // let headers = new Headers();
+        // headers.append("Authorization", "Bearer " + global.token.trim());
+
+
+        // var formdata = new FormData();
+        // formdata.append("id", productDetail?.id);
+        // formdata.append("attribute_id_1", attributes);
+        // formdata.append("quantity", qty);
+
+        // console.log(attributes, 'canflknasknf')
+        // const requestOptions = {
+        //     method: 'POST',
+        //     headers: headers,
+        //     body: formdata,
+        // }
+
+
+        // fetch("https://theaaura.com/api/v1/products/variant/price", requestOptions).then(res => res.json())
+        //     .then(res => {
+        //         setItemPrice(res.price);
+        //         setPriceLoader(false);
+        //     })
+        //     .catch(err => {
+        //         setPriceLoader(false);
+        //         console.log(err, 'error');
+        //     }
+        //     )
+    }, [qty])
+    const priceVariant = () => {
+        setPriceLoader(true);
+
+        let headers = new Headers();
+        headers.append("Authorization", "Bearer " + global.token.trim());
+
+
+        var formdata = new FormData();
+        formdata.append("id", productDetail?.id);
+        formdata.append("attribute_id_1", attributes);
+        formdata.append("quantity", qty);
+
+        console.log(formdata, 'canflknasknf');
+        const requestOptions = {
+            method: 'POST',
+            headers: headers,
+            body: formdata,
+        }
+
+
+        fetch("https://theaaura.com/api/v1/products/variant/price", requestOptions).then(res => res.json())
+            .then(res => {
+                setItemPrice(res.price);
+                setPriceLoader(false);
+            })
+            .catch(err => {
+                setPriceLoader(false);
+                console.log(err, 'error');
+            }
+            )
+        console.log(attributes, itemPrice, 'this is from price var')
+        // setAttributes(null);
+    }
+
+    // console.log(productDetail, 'product detail')
+    useEffect(() => {
+        fetch(String(item.links.related))
+            .then(res => res.json())
+            .then(res => {
+                setRelated(res.data)
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+
+
 
     return (
         <View style={styles.container} >
-            {productDetail === null ? <ActivityIndicator size="large" color={Colors.violet} /> : <>
-                <ScrollView stickyHeaderIndices={[9]}>
-                    <Header title={productDetail?.name.substring(0, 17) + '...'} navigation={navigation} backArrow={true} />
+            <Header title={productDetail === null ? 'loading...' : productDetail?.name.substring(0, 17) + '...'} navigation={navigation} backArrow={true} />
+            {productDetail === null ? <ActivityIndicator size="large" color={Colors.violet} style={{ flex: 1, alignSelf: 'center' }} /> : <>
+                <ScrollView >
                     <Image source={{ uri: productDetail.thumbnail_image }} style={styles.img} resizeMode='contain' />
                     {/* <View style={{ marginHorizontal: wp(3) }} > */}
                     <Text style={styles.title} >{productDetail.name}</Text>
@@ -65,10 +138,7 @@ const ProductDetail = ({ route, navigation }) => {
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: wp(4) }} >
                             <Text style={styles.minus} onPress={() => {
                                 if (qty > 1) {
-                                    setQty(qty - 1)
-                                    setItemPrice(productDetail.discounted_price.substring(3) * (qty - 1), 'minus discounted_price');
-                                    console.log(productDetail.discounted_price.substring(3) * qty, 'minus discounted_price')
-                                    console.log(itemPrice, 'this is item price')  // itemPrice - (itemPrice * (qty - 1))
+                                    setQty(qty - 1);
                                 } else {
                                     Alert.alert('Minimum order quantity is one')
                                 }
@@ -77,8 +147,6 @@ const ProductDetail = ({ route, navigation }) => {
                             <Text style={styles.minus} onPress={() => {
                                 if (productDetail.available_qty > qty) {
                                     setQty(qty + 1);
-                                    setItemPrice(productDetail.discounted_price.substring(3) * (qty + 1))
-                                    console.log(productDetail.discounted_price.substring(3) * qty, 'this is item price')  // itemPrice + (itemPrice * (qty - 1))
                                 } else {
                                     console.log(qty)
                                     Alert.alert('Out of stock')
@@ -86,104 +154,167 @@ const ProductDetail = ({ route, navigation }) => {
                             }} > +</Text>
                         </View>
                     </View>
-                    <View style={{ flexDirection: 'row', flexWrap: 'wrap' }} >
-                        {productDetail.product_variants.map((item, index) => {
+                    <FlatList
+                        horizontal
+                        data={productDetail.product_variants}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item, index }) => {
                             return (
-                                <Pressable key={index}
-                                    onPress={() => {
-                                        setVariant(item)
-                                        setAttributes(item?.value)
-                                        console.log(attributes, 'this is selected size')
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: hp(1) }}>
+                                    <Pressable onPress={() => {
+                                        setVariant(index);
+                                        setAttributes(item.value);
                                     }}
-                                    style={
-                                        {
+                                        style={{
                                             flexDirection: 'row',
                                             alignItems: 'center',
                                             marginLeft: wp(3),
                                             borderRadius: wp(2),
                                             borderWidth: wp(0.4),
-                                            borderColor: variant === item ? Colors.violet : Colors.greyLight,
+                                            borderColor: variant === index ? Colors.violet : Colors.greyLight,
                                             padding: wp(0.5),
                                             justifyContent: 'center',
                                         }}>
-                                    <Text style={[styles.contentText, { color: variant === item ? Colors.black : Colors.greyLight }]} >{item.label}</Text>
-                                    <Text style={[styles.contentText, { color: variant === item ? Colors.black : Colors.greyLight }]} > {item.value}</Text>
-                                </Pressable>
+                                        <Text style={[styles.contentText, { color: variant === index ? Colors.black : Colors.greyLight }]} > {item.value}</Text>
+                                    </Pressable>
+                                </View>
+                            )
+                        }}
+                    />
+                    {/* <View style={{ flexDirection: 'row', flexWrap: 'wrap' }} >
+                        {productDetail.product_variants.map((item, index) => {
+                            return (
+                                // item.label === 'Size' ?
+                                <>
+                                    <Pressable key={index}
+                                        onPress={() => {
+                                            setVariant(index);
+                                            setAttributes(item.value);
+                                        }}
+                                        onPressOut={() => {
+                                            setAttributes(item.value);
+                                            priceVariant();
+                                        }}
+                                        style={
+                                            {
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                marginLeft: wp(3),
+                                                borderRadius: wp(2),
+                                                borderWidth: wp(0.4),
+                                                borderColor: variant === index ? Colors.violet : Colors.greyLight,
+                                                padding: wp(0.5),
+                                                justifyContent: 'center',
+                                            }}>
+                                        <Text style={[styles.contentText, { color: variant === index ? Colors.black : Colors.greyLight }]} > {item.value}</Text>
+                                    </Pressable>
+                                </>
                             )
                         })}
-                    </View>
+                    </View> */}
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: wp(3) }} >
                         <Text style={styles.title} >Price</Text>
                         <Text style={styles.strike} >{item.base_price}</Text>
-                        <Text style={styles.price}>Rs {itemPrice}</Text>
+                        {priceLoader ? <ActivityIndicator size='small' color={Colors.violet} style={{ alignSelf: 'center' }} /> :
+                            <Text style={styles.price}>{itemPrice}</Text>
+                        }
                     </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: wp(3) }} >
-                        <View style={CommonStyle.shadow} >
-                            <Button title='add to waishlist' press={variant === null ? true : false} style={styles.wishButton} buttontext={{ color: Colors.violet, textTransform: 'uppercase', }}
-                                onPress={() => {
+                    {loader ? <ActivityIndicator size="small" color={Colors.violet} style={{ alignSelf: 'center' }} /> :
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: wp(3) }} >
+                            <View style={CommonStyle.shadow} >
+                                <Button title='add to wishlist' style={styles.wishButton} buttontext={{ color: Colors.violet, textTransform: 'uppercase', }}
+                                    onPress={() => {
+                                        setLoader(true);
+                                        let headers = new Headers();
+                                        headers.append("Authorization", "Bearer " + global.token.trim());
 
-                                    let headers = new Headers();
-                                    headers.append("Authorization", "Bearer " + global.token.trim());
-
-                                    let formdata = new FormData();
-                                    formdata.append("product_id", item.id);
-                                    formdata.append("variant_id", attributes);
-
-                                    const requestOptions = {
-                                        method: 'POST',
-                                        headers: headers,
-                                        body: formdata,
-                                    };
-
-                                    fetch('https://theaaura.com/api/v1/wishlists/add', requestOptions).then(res => res.json()).then(response => {
-                                        console.log(response, 'added to wishlist')
+                                        let formdata = new FormData();
+                                        formdata.append("product_id", item.id);
+                                        // formdata.append("variant_id", attributes);
+                                        // formdata.append("quantity", qty);
 
 
-                                    }).catch(err => console.log(err))
+                                        const requestOptions = {
+                                            method: 'POST',
+                                            headers: headers,
+                                            body: formdata,
+                                            redirect: 'follow',
+                                        };
 
-
-                                }}
-
-                            />
-                        </View>
-                        <View style={CommonStyle.shadow} >
-                            <Button title='add to cart' press={variant === null ? true : false} style={styles.cartButton} buttontext={{ textTransform: 'uppercase', }}
-
-                                onPress={() => {
-                                    let headers = new Headers();
-
-                                    headers.append("Authorization", "Bearer " + global.token.trim());
-
-                                    let formdata = new FormData();
-                                    formdata.append("product_id", item.id);
-
-                                    const requestOptions = {
-                                        method: 'POST',
-                                        headers: headers,
-                                        body: formdata,
-                                    };
-
-                                    fetch('https://theaaura.com/api/v1/carts/add', requestOptions).then(res => res.json())
-                                        .then(response => {
-                                            console.log(response, 'add to cart res')
-                                            if (response.message === "Product added to cart successfully") {
+                                        fetch('https://theaaura.com/api/v1/wishlists/add', requestOptions).then(res => res.json()).then(response => {
+                                            console.log(response, 'added to wishlist')
+                                            if (response.message === "Product is successfully added to your wishlist") {
+                                                setLoader(false);
                                                 Alert.alert(
                                                     'Success',
-                                                    'Product added to cart successfully',
+                                                    'Product is successfully added to your wishlist',
                                                     [
                                                         { text: 'OK', onPress: () => console.log('OK Pressed') },
                                                     ],
                                                     { cancelable: false }
                                                 );
                                             } else {
+                                                setLoader(false);
                                                 alert(response.message)
                                             }
-                                        })
-                                        .catch(err => console.log(err))
-                                }}
-                            />
+
+                                        }).catch(err => {
+                                            setLoader(false);
+                                            console.log(err, 'error wishlist')
+                                        }
+                                        )
+                                    }}
+                                />
+                            </View>
+                            <View style={CommonStyle.shadow} >
+                                <Button title='add to cart' style={styles.cartButton} buttontext={{ textTransform: 'uppercase', }}
+
+                                    onPress={() => {
+                                        setLoader(true);
+                                        let headers = new Headers();
+                                        headers.append("Authorization", "Bearer " + global.token.trim());
+
+                                        let formdata = new FormData();
+                                        formdata.append("id", item.id);
+                                        formdata.append("attribute_id_1", attributes);
+                                        formdata.append("quantity", qty);
+                                        console.log('add to cart pressed');
+
+                                        const requestOptions = {
+                                            method: 'POST',
+                                            headers: headers,
+                                            body: formdata,
+                                            redirect: 'follow',
+                                        };
+
+                                        fetch('https://theaaura.com/api/v1/carts/add', requestOptions).then(res => res.json())
+                                            .then(response => {
+                                                console.log(response, 'add to cart res');
+                                                if (response.message === "Product added to cart successfully") {
+                                                    setLoader(false);
+                                                    Alert.alert(
+                                                        'Success',
+                                                        'Product added to cart successfully',
+                                                        [
+                                                            { text: 'OK', onPress: () => console.log('OK Pressed') },
+                                                        ],
+                                                        { cancelable: false }
+                                                    );
+                                                } else {
+                                                    alert(response.message)
+                                                    setLoader(false);
+                                                }
+                                            })
+                                            .catch(err => {
+                                                setLoader(false);
+                                                console.log(err, 'this is error blocker of add to cart')
+                                            }
+                                            )
+                                    }}
+                                />
+                            </View>
                         </View>
-                    </View>
+                    }
                     <Text style={[styles.title, { marginTop: hp(2) }]} >Description</Text>
                     <View style={{ marginHorizontal: wp(3) }} >
                         <RenderHTML

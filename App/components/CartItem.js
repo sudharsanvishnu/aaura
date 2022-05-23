@@ -1,29 +1,53 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { Colors, CommonStyle, fonts, hp, wp } from '../utils/Constant';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const CartItem = ({ item }) => {
+const CartItem = ({ item, onPressDelete, wishlist }) => {
 
     // console.log(item., 'cart item')
 
+    const removeItem = (item) => {
+        return (
+
+            console.log('item removed', item.id)
+        )
+    }
+
+    const decreaseItem = () => {
+        const requestOptions = {
+            method: 'POST',
+        }
+
+        fetch('https://theaaura.com/api/v1/carts/change-quantity' + item.id, requestOptions).then(response => response.json()).then(response => {
+            console.log(response.data, 'this is cart items')
+        }
+        ).catch(err => console.log(err))
+    }
     return (
         <View style={styles.cardView} >
             <View style={CommonStyle.shadow} >
                 <View style={{ backgroundColor: Colors.white, borderRadius: wp(2) }} >
-                    <Image source={{ uri: item.product.image }} resizeMode='cover' style={styles.image} />
+                    <Image source={{ uri: wishlist ? item.product.thumbnail_image : item.product.image }} resizeMode='cover' style={styles.image} />
                     <Text numberOfLines={1} style={styles.title} >{item.product.name}</Text>
                     <View style={styles.contentView} >
                         <Text style={styles.actualPrice} >Rs {item.price}</Text>
                         <Text style={styles.actualPrice} >Quantity {item.quantity}</Text>
                     </View>
+                    <View style={{ flexDirection: 'row', backgroundColor: Colors.visible }} >
+                        <Text style={{ color: Colors.black, marginHorizontal: wp(2), fontFamily: fonts.PSB }} >-</Text>
+                        <Text style={{ color: Colors.violet }} >{item.quantity}</Text>
+                        <Text style={{ color: Colors.black, marginHorizontal: wp(2), fontFamily: fonts.PSB }} >+</Text>
+                    </View>
                     <View style={{ marginHorizontal: wp(2) }} >
-                        <Text style={styles.content} >Added to cart: {item.date}</Text>
+                        <Text style={styles.content} >{item.date}</Text>
                     </View>
                     <View style={styles.contentView} >
                         <Text style={styles.content} >Remove item</Text>
-                        <AntDesign name='delete' size={wp(5)} color={Colors.violet} style={styles.heart} />
+                        <TouchableOpacity onPress={() => removeItem(item)} >
+                            <AntDesign name='delete' size={wp(5)} color={Colors.violet} style={styles.heart} />
+                        </TouchableOpacity>
                         {/* <EvilIcons name='cart' size={wp(7)} color={Colors.violet} style={styles.cart} /> */}
                     </View>
                 </View>
@@ -39,7 +63,7 @@ const styles = StyleSheet.create({
         width: wp(45),
         margin: wp(2),
         // borderRadius: wp(2),
-        height: hp(31),
+        // height: hp(31),
         backgroundColor: Colors.white,
     },
     image: {

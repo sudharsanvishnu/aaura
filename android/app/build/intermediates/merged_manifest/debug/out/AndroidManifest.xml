@@ -116,6 +116,15 @@
             android:authorities="com.shopping.reactnativefirebaseappinitprovider"
             android:exported="false"
             android:initOrder="99" />
+        <provider
+            android:name="com.imagepicker.ImagePickerProvider"
+            android:authorities="com.shopping.imagepickerprovider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/imagepicker_provider_paths" />
+        </provider>
 
         <activity
             android:name="com.paytm.pgsdk.PaytmPGActivity"

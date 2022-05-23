@@ -25,6 +25,8 @@ import { LogBox } from 'react-native';
 import Reset from './screens/splash/Reset';
 import TopBrands from './screens/drawer/TopBrands';
 import Shop from './screens/drawer/Shop';
+import SeeAll from './screens/drawer/SeeAll';
+import Search from './screens/stack/Search';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -72,6 +74,8 @@ const Navigation = () => {
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="Reset" component={Reset} />
                 <Stack.Screen name="DrawerScreen" component={DrawerScreen} />
+                <Stack.Screen name='Search' component={Search} />
+                <Stack.Screen name='SeeAll' component={SeeAll} />
                 <Stack.Screen name="Cards" component={Cards} />
                 <Stack.Screen name="Product detail" component={ProductDetail} />
                 <Stack.Screen name="Deals" component={Deals} />
